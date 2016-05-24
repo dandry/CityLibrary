@@ -1,0 +1,41 @@
+﻿@model ILookup<string, CityLibrary.Models.Library.Book>
+
+@{
+    ViewBag.Title = "Wszystkie książki";
+}
+
+<h2>Wszystkie książki</h2>
+
+<hr />
+
+<div class="div-blankspace">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="btn-group pull-left">
+                    @Html.ActionLink("Dodaj książkę", "Create", null, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Dodaj egzemplarz", "AddCopy", null, new { @class = "btn btn-default" })
+                </div>
+                <div class="vertical-separator pull-left"></div>
+                @using (Html.BeginForm("Index", "Books", FormMethod.Get))
+                {
+                    <div class="input-group">
+                        @Html.TextBox("SearchString", null, new { @class = "form-control form-control-fixed-width", @placeholder = "Filtruj książkę.." })
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+@Html.Partial("_BookList", Model)

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CityLibrary.ViewModels.BookCollectionViewModel>
+
+@{
+    ViewBag.Title = "Kolekcje książek";
+}
+
+<h2>Kolekcje książek</h2>
+
+<hr />
+
+<div class="col-md-11">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-md-5">@Html.DisplayNameFor(model => model.Name) <span class="glyphicon glyphicon-triangle-bottom"></span></th>
+                <th>@Html.Raw("Książki:")</th>
+                <th class="text-right">@Html.Raw("Dostępne") <span class="glyphicon glyphicon-triangle-bottom"></span></th>
+                <th class="text-right">@Html.Raw("Wypożyczone") <span class="glyphicon glyphicon-triangle-bottom"></span></th>
+                <th class="text-right">@Html.Raw("Wszystkie") <span class="glyphicon glyphicon-triangle-bottom"></span></th>
+                <th class="text-right">@Html.Raw("Akcje")</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var collection in Model)
+            {
+                <tr>
+                    <td colspan="2">@Html.DisplayFor(item => collection.Name)</td>
+                    <td class="text-right">@Html.ActionLink(collection.AvailableBooks.Count.ToString(), "AvailableBooks", new { id = collection.CollectionId })</td>
+                    <td class="text-right">@Html.ActionLink(collection.BorrowedBooks.Count.ToString(), "BorrowedBooks", new { id = collection.CollectionId })</td>
+                    <td class="text-right">@Html.ActionLink(collection.CollectionBooks.Count.ToString(), "AllBooks", new { id = collection.CollectionId })</td>
+                    <td class="text-right">
+                        @Html.ActionLink("Edytuj", "Edit", new { id = collection.CollectionId }) |
+                        @Html.ActionLink("Usuń", "Delete", new { id = collection.CollectionId })
+                    </td>
+                </tr>
+            } 
+        </tbody>
+    </table>
+</div>
+<div class="clearfix"></div>
+

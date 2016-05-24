@@ -1,0 +1,10 @@
+﻿@model IEnumerable<CityLibrary.Models.Library.Book>
+
+<div class="form-group">
+    @Html.Label("Tytuł", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownList("AuthorBooksDropDown", new SelectList(Model, "BookId", "Title"), " -- Wybierz pozycję -- ", new { @class = "form-control" })
+    </div>
+</div>
+
+

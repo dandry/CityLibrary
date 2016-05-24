@@ -1,0 +1,66 @@
+﻿@model CityLibrary.ViewModels.BookBorrowViewModel
+
+@{
+    ViewBag.Title = "Wypożycz książkę - " + @Model.Book.Title + ", " + Model.Book.Author ;
+}
+
+<h2>Wypożycz książkę</h2>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <h3>@Model.Book.Title</h3>
+    <h4>@Model.Book.Author</h4>
+    <h5>@Model.Book.ISBN</h5>
+    <hr />
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Book.BookId)
+
+        @Html.HiddenFor(model => model.Book.Title)
+        @Html.HiddenFor(model => model.Book.Author)
+        @Html.HiddenFor(model => model.Book.Publisher)
+        @Html.HiddenFor(model => model.Book.ISBN)
+        @Html.HiddenFor(model => model.Book.YearPrinted)
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SelectedListUserId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.SelectedListUserId, Model.UserList, "-- Wybierz użytkownika --", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SelectedListUserId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Book.BorrowDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CurrentDate, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @Value = Model.CurrentDate.ToString("yyyy-MM-dd") } })
+                @Html.ValidationMessageFor(model => model.CurrentDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Book.ReturnDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReturnDate, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @Value = Model.ReturnDate.ToString("yyyy-MM-dd") } })
+                @Html.ValidationMessageFor(model => model.ReturnDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zatwierdź" class="btn btn-success" />
+                <a class="btn btn-danger" href="@Url.Action("Index")">Anuluj</a>
+            </div>
+        </div>
+
+    </div>
+}
+
+    

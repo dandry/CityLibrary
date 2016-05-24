@@ -1,0 +1,201 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-color: #e6e6e6;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* Custom Bootstrap Navbar colours */
+
+.navbar-default {
+  background-color: #009fc1;
+  border-color: #006987;
+}
+.navbar-default .navbar-brand {
+  color: #ecf0f1;
+}
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #ffffff;
+}
+.navbar-default .navbar-text {
+  color: #ecf0f1;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #ecf0f1;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #ffffff;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #ffffff;
+  background-color: #006987;
+}
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+  color: #ffffff;
+  background-color: #006987;
+}
+.navbar-default .navbar-toggle {
+  border-color: #006987;
+}
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+  background-color: #006987;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #ecf0f1;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: #ecf0f1;
+}
+.navbar-default .navbar-link {
+  color: #ecf0f1;
+}
+.navbar-default .navbar-link:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: #ecf0f1;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #ffffff;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #ffffff;
+    background-color: #006987;
+  }
+}
+
+/* END of Custom Bootstrap Navbar colours */
+
+hr {
+    border-top: 1px solid #8c8c8c;
+}
+
+
+.table thead > tr > th {
+  border-bottom: 1px solid #8c8c8c;
+}
+
+.table thead > tr > th.fixed-width {
+  width: 120px;
+}
+
+.table tbody > tr > td > span.leftPadding {
+    padding-left: 30px;
+}
+
+.table.inner-table {
+    background-color: #f2f2f2;
+    margin-top: 10px;
+}
+
+td.hidden-row {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    border-top: none !important;
+}
+
+
+div.table-div {
+    padding: 0px 80px 0px 30px;
+    border-top: 1px solid #ddd;
+    
+}
+
+div.book-details-header {
+    max-width: 170px;
+    border-right: 1px solid #cccccc;
+    font-weight: bold;
+    text-align: right;
+    padding: 5px 10px;
+}
+
+div.book-details-cell {
+    padding: 5px 10px
+}
+
+div.row-padding {
+    padding: 5px 0px;
+}
+
+div.button-toolbar {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+div.div-blankspace {
+    margin: 20px 0px;
+}
+
+div.book-details-actions {
+    border-left: 1px solid #8c8c8c;
+    padding-right: 45px;
+}
+
+div.book-details-actions > div {
+    padding: 2px 0px;
+}
+
+div.book-cover {
+    padding: 0px 20px;
+    border-right: 1px solid #8c8c8c;
+}
+div.book-temp-cover {
+    height: 240px !important;
+    width: 170px !important;
+    background-color: #006987;
+    border: 3px solid #000000;
+    display: table-cell;
+    vertical-align: middle;
+    color: #ffffff;
+    text-align: center;
+}
+
+dl.book-details-dl > dt {
+    border-right: 1px solid #cccccc;
+    padding-right: 10px;
+    padding-bottom: 5px;
+}
+
+
+.form-control-fixed-width {
+    max-width: initial;
+}
+
+div.vertical-separator {
+    width: 5px;
+    height: 5px;
+}
+
+

@@ -1,0 +1,12 @@
+﻿@model ILookup<string, CityLibrary.Models.Library.Book>
+
+@{
+    ViewBag.Title = "Author";
+}
+
+<h2>Książki autora <i>@ViewBag.AuthorName</i></h2>
+
+<hr />
+
+    @Html.Partial("_BookList", Model)
+

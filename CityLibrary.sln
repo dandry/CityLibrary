@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityLibrary", "CityLibrary\CityLibrary.csproj", "{1FCA461F-9DEB-4BE7-B659-F97FF6DD4006}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CityLibrary.Tests", "CityLibrary.Tests\CityLibrary.Tests.csproj", "{BA961D08-6E62-4EAC-848D-346C11D03F01}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1FCA461F-9DEB-4BE7-B659-F97FF6DD4006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FCA461F-9DEB-4BE7-B659-F97FF6DD4006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FCA461F-9DEB-4BE7-B659-F97FF6DD4006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FCA461F-9DEB-4BE7-B659-F97FF6DD4006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA961D08-6E62-4EAC-848D-346C11D03F01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA961D08-6E62-4EAC-848D-346C11D03F01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA961D08-6E62-4EAC-848D-346C11D03F01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA961D08-6E62-4EAC-848D-346C11D03F01}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
