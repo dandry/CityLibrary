@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<CityLibrary.ViewModels.BookCollectionViewModel>
 
+@using CityLibrary.Models.Library
+
 @{
     ViewBag.Title = "Kolekcje książek";
 }
@@ -7,6 +9,15 @@
 <h2>Kolekcje książek</h2>
 
 <hr />
+<div class="div-blankspace">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                @Html.ActionLink("Utwórz nową", "Create", null, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div> 
+</div>
 
 <div class="col-md-11">
     <table class="table">
@@ -25,12 +36,21 @@
             {
                 <tr>
                     <td colspan="2">@Html.DisplayFor(item => collection.Name)</td>
-                    <td class="text-right">@Html.ActionLink(collection.AvailableBooks.Count.ToString(), "AvailableBooks", new { id = collection.CollectionId })</td>
-                    <td class="text-right">@Html.ActionLink(collection.BorrowedBooks.Count.ToString(), "BorrowedBooks", new { id = collection.CollectionId })</td>
-                    <td class="text-right">@Html.ActionLink(collection.CollectionBooks.Count.ToString(), "AllBooks", new { id = collection.CollectionId })</td>
+                    <td class="text-right">@Html.ActionLink(collection.AvailableBooks.Count.ToString(), "Books", new { id = collection.CollectionId, type = BookType.Available })</td>
+                    <td class="text-right">@Html.ActionLink(collection.BorrowedBooks.Count.ToString(), "Books", new { id = collection.CollectionId, type = BookType.Borrowed })</td>
+                    <td class="text-right">@Html.ActionLink(collection.CollectionBooks.Count.ToString(), "Books", new { id = collection.CollectionId, type = BookType.All })</td>
                     <td class="text-right">
-                        @Html.ActionLink("Edytuj", "Edit", new { id = collection.CollectionId }) |
-                        @Html.ActionLink("Usuń", "Delete", new { id = collection.CollectionId })
+                        <div class="dropdown collection-actions">
+                            <button class="btn btn-xs btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                Akcje
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu ">
+                                <li>@Html.ActionLink("Dodaj książkę do kolekcji", "AddBook", new { id = collection.CollectionId })</li>
+                                <li>@Html.ActionLink("Edytuj", "Edit", new { id = collection.CollectionId })</li>
+                                <li>@Html.ActionLink("Usuń", "Delete", new { id = collection.CollectionId })</li>
+                            </ul>
+                        </div>
                     </td>
                 </tr>
             } 

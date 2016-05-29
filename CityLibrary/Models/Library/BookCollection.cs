@@ -13,9 +13,11 @@ namespace CityLibrary.Models.Library
         [Key]
         public int CollectionId { get; set; }
 
+        [Required]
         [Display(Name = "Kolekcja")]
         public string Name { get; set; }
 
+        [Display(Name = "Książki")]
         public virtual ICollection<Book> CollectionBooks { get; set; }
     }
 }

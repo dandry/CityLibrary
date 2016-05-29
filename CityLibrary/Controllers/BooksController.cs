@@ -154,16 +154,22 @@ namespace CityLibrary.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Book book)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.LibraryBooks.Add(book);
-                db.SaveChanges();
-                return RedirectToAction("Details", new { id = book.BookId });
+                if (ModelState.IsValid)
+                {
+                    db.LibraryBooks.Add(book);
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = book.BookId });
+                }
+                throw new Exception("Saving to database failed.");
             }
-
-            //DropDownList initialization for Book Collections in the View
-            ViewBag.CollectionId = new SelectList(db.BookCollections, "CollectionId", "Name");
-            return View(book);
+            catch
+            {
+                //DropDownList initialization for Book Collections in the View
+                ViewBag.CollectionId = new SelectList(db.BookCollections, "CollectionId", "Name");
+                return View(book);
+            }
         }
 
         [HttpGet]
@@ -183,19 +189,24 @@ namespace CityLibrary.Controllers
         [HttpPost]
         public ActionResult Edit(Book book)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(book).State = EntityState.Modified;
-                db.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    db.Entry(book).State = EntityState.Modified;
+                    db.SaveChanges();
 
-                return RedirectToAction("Details", new { id = book.BookId });
+                    return RedirectToAction("Details", new { id = book.BookId });
+                }
+                ViewBag.Collections = db.BookCollections;
+                return View(book);
             }
-
-            ViewBag.Collections = db.BookCollections;
-            return View(book);
+            catch
+            {
+                return View(book);
+            }    
         }
 
-        // POST: Book/Delete/5
         [HttpPost]
         public ActionResult Delete(int id)
         {
@@ -216,6 +227,11 @@ namespace CityLibrary.Controllers
 
             var book = db.LibraryBooks.Find(id);
 
+            if (book == null)
+            {
+                return RedirectToAction("Index");
+            }
+
             if (book.UserId != null)
             {
                 return new HttpStatusCodeResult(500, "Bad request");
@@ -235,35 +251,48 @@ namespace CityLibrary.Controllers
         [HttpPost]
         public ActionResult Borrow(BookBorrowViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var book = db.LibraryBooks.Find(viewModel.Book.BookId);
+                if (ModelState.IsValid)
+                {
+                    var book = db.LibraryBooks.Find(viewModel.Book.BookId);
 
-                book.UserId = viewModel.SelectedListUserId;
-                book.BorrowDate = viewModel.CurrentDate;
-                book.ReturnDate = viewModel.ReturnDate;
+                    book.UserId = viewModel.SelectedListUserId;
+                    book.BorrowDate = viewModel.CurrentDate;
+                    book.ReturnDate = viewModel.ReturnDate;
 
-                db.LibraryBooks.AddOrUpdate(book);
-                db.SaveChanges();
-                return RedirectToAction("Details", new { id = book.BookId });
+                    db.LibraryBooks.AddOrUpdate(book);
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = book.BookId });
+                }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
-
+            catch
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
         public ActionResult Return(int id)
         {
-            var book = db.LibraryBooks.Find(id);
+            try
+            {
+                var book = db.LibraryBooks.Find(id);
 
-            book.UserId = null;
-            book.BorrowDate = null;
-            book.ReturnDate = null;
+                book.UserId = null;
+                book.BorrowDate = null;
+                book.ReturnDate = null;
 
-            db.LibraryBooks.AddOrUpdate(book);
-            db.SaveChanges();
+                db.LibraryBooks.AddOrUpdate(book);
+                db.SaveChanges();
 
-            return RedirectToAction("Details", new { id = id });
+                return RedirectToAction("Details", new { id = id });
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         // This remote validation check whether there is an entity with given ISBN already in the database. To prevent this method 

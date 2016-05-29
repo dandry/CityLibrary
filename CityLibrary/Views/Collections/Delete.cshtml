@@ -1,0 +1,53 @@
+﻿@model CityLibrary.Models.Library.BookCollection
+
+@{
+    ViewBag.Title = "Usuń pozycję";
+}
+
+<h2>Usuń kolekcję</h2>
+
+<h3>Czy na pewno chcesz usunąć wybraną kolekcję?</h3>
+
+
+<h4>@Model.Name</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <dl class="dl-horizontal book-details-dl">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CollectionBooks)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CollectionBooks.Count)
+            </dd>
+            <dt>&nbsp</dt>
+            <dd>
+                @Html.ActionLink("Lista >", "AllBooks", new { id = Model.CollectionId }, new { @target = "_blank" })
+            </dd>
+        </dl>
+    </div>
+
+    <div class="col-md-2">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="col-md-1 book-details-actions"></div>
+            <div class="form-actions no-color">
+                <input type="submit" value="Usuń" class="btn btn-danger btn-block" />
+                <div class="div-blankspace"></div>
+                <a href="@Url.Action("Index")" type="button" class="btn btn-default btn-block">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Wróć
+                </a>
+            </div>
+        }
+    </div>
+</div>
+

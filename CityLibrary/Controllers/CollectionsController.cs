@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CityLibrary.Models.Library;
+using System.Data.Entity;
 
 namespace CityLibrary.Controllers
 {
@@ -13,12 +14,16 @@ namespace CityLibrary.Controllers
     {
         LibraryContext db = new LibraryContext();
 
-        // GET: Collection
         public ActionResult Index()
         {
             var collections = db.BookCollections
                 .OrderBy(bc => bc.Name)
                 .ToList();
+
+            if (collections == null)
+            {
+                return RedirectToAction("Index");
+            }
 
             var collectionsViewModel = new List<BookCollectionViewModel>();
 
@@ -27,106 +32,223 @@ namespace CityLibrary.Controllers
                 var bookCollectionViewModel = new BookCollectionViewModel(collection);
                 collectionsViewModel.Add(bookCollectionViewModel);
             }
-            
+
             return View(collectionsViewModel);
         }
 
-        public ActionResult AvailableBooks(int? id)
+        public ActionResult Books(int id, BookType type, string search)
         {
-            List<Book> availableBooks;
+            var collection = db.BookCollections.Find(id);
 
-            if (id == null)
+            if (collection == null)
             {
-                availableBooks = db.BookCollections
-                    .SelectMany(cb => cb.CollectionBooks)
-                    .OrderBy(b => b.Title)
-                    .ToList();
-
+                return RedirectToAction("Index");
             }
-            else
-            {
-                var collection = db.BookCollections.Find(id);
 
-                availableBooks = collection.CollectionBooks
+            ViewBag.CollectionName = collection.Name;
+            ViewBag.CollectionId = collection.CollectionId;
+            ViewBag.BookType = type;
+
+            ILookup<string, Book> lookup;
+
+            if (type == BookType.Available)
+            {
+                if (search != null)
+                {
+                    lookup = collection.CollectionBooks
                     .Where(b => b.UserId == null)
-                    .ToList();
+                    .Where(b => b.Title.ToLower()
+                    .Contains(search.ToLower()))
+                    .ToLookup(b => b.Title);
+                }
+                else
+                {
+                    lookup = collection.CollectionBooks
+                    .Where(b => b.UserId == null)
+                    .ToLookup(b => b.Title);
+                }
 
-                ViewBag.CollectionName = collection.Name;
+            }
+            else if (type == BookType.Borrowed)
+            {
+                if (search != null)
+                {
+                    lookup = collection.CollectionBooks
+                    .Where(b => b.UserId != null)
+                    .Where(b => b.Title.ToLower()
+                    .Contains(search.ToLower()))
+                    .ToLookup(b => b.Title);
+                }
+                else
+                {
+                    lookup = collection.CollectionBooks
+                    .Where(b => b.UserId != null)
+                    .ToLookup(b => b.Title);
+                }
+            }
+            else //all books
+            {
+                if (search != null)
+                {
+                    lookup = collection.CollectionBooks
+                    .Where(b => b.Title.ToLower()
+                    .Contains(search.ToLower()))
+                    .ToLookup(b => b.Title);
+                }
+                else
+                {
+                    lookup = collection.CollectionBooks
+                    .ToLookup(b => b.Title);
+                }
             }
 
-            return View(availableBooks);
+            return View("CollectionBooks", lookup);
         }
 
-        // GET: Collection/Details/5
-        public ActionResult Details(int id)
+        public ActionResult AddBook(int id)
         {
-            return View();
+            var collection = db.BookCollections.Find(id);
+
+            if (collection == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(collection);
         }
 
-        // GET: Collection/Create
+        public ActionResult LoadBook(int id, string bookTitle)
+        {
+            var book = db.LibraryBooks
+                .Where(b => b.Title.Contains(bookTitle))
+                .FirstOrDefault();
+
+            if (book == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.CollectionId = id;
+
+            return PartialView("_LoadBook", book);
+        }
+
+        [HttpPost]
+        public ActionResult AddCopy(int id, string title, string author)
+        {
+            
+            var books = db.LibraryBooks
+                .Where(b => (b.Author.ToLower().Contains(author.ToLower()))
+                && (b.Title.ToLower().Contains(title.ToLower())))
+                .ToList();
+
+            var collection = db.BookCollections.Find(id);
+
+            if (books == null || collection == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            foreach (Book b in books)
+            {
+                collection.CollectionBooks.Add(b);
+            }
+
+            db.Entry(collection).State = EntityState.Modified;
+
+            db.SaveChanges();
+
+            return RedirectToAction("Books", new { id = id, type = BookType.All });
+        }
+
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Collection/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(BookCollection collection)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    db.BookCollections.Add(collection);
+                    db.SaveChanges();
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Books", "Collections", new { id = collection.CollectionId, type = BookType.All });
+                }
+
+                return View(collection);
             }
             catch
             {
-                return View();
+                ModelState.AddModelError(String.Empty, "Nie udało się utworzyć kolekcji. Spróbuj ponownie lub skontaktuj się z administratorem.");
+                return View(collection);
             }
         }
 
-        // GET: Collection/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var collection = db.BookCollections.Find(id);
+
+            if (collection == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(collection);
         }
 
-        // POST: Collection/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(BookCollection collection)
         {
             try
             {
-                // TODO: Add update logic here
+                if (ModelState.IsValid)
+                {
+                    db.Entry(collection).State = EntityState.Modified;
+                    db.SaveChanges();
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Books", "Collections", new { id = collection.CollectionId, type = BookType.All });
+                }
+
+                ModelState.AddModelError(String.Empty, "Nie udało się zaktualizować kolekcji. Spróbuj ponownie lub skontaktuj się z administratorem.");
+                return View(collection);
             }
             catch
             {
-                return View();
+                ModelState.AddModelError(String.Empty, "Wystąpił błąd podczas aktualizacji pozycji w bazie danych. Skontaktuj się z administratorem.");
+                return View(collection);
             }
         }
 
-        // GET: Collection/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var collection = db.BookCollections.Find(id);
+
+            if (collection == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(collection);
         }
 
-        // POST: Collection/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            var collection = db.BookCollections.Find(id);
 
-                return RedirectToAction("Index");
-            }
-            catch
+            if (collection != null)
             {
-                return View();
+                db.BookCollections.Remove(collection);
+                db.SaveChanges();
             }
+            
+            return RedirectToAction("Index");
         }
     }
 }

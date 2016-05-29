@@ -1,0 +1,35 @@
+﻿@model CityLibrary.Models.Library.BookCollection
+
+@{
+    ViewBag.Title = "Dodaj książkę do kolekcji " + Model.Name;
+}
+
+<h2>Dodaj książkę do kolekcji @Model.Name</h2>
+
+<hr />
+
+@using (Ajax.BeginForm("LoadBook", new { id = Model.CollectionId }, new AjaxOptions
+{
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "bookDetailsPlaceHolder",
+    OnComplete = "animateBookLoad"
+}))
+{
+    <div class="form-horizontal">
+        <div class="form-group form-custom">
+            <div class="col-md-12">
+                @Html.TextBox("bookTitle", null, new { @class = "form-control pull-left", @placeholder = "Szukaj tytułu" })
+                <span class="input-group-btn">
+                    <button id="addCopySearchBtn" class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+}
+
+<div id="bookDetailsPlaceHolder" style="display:none">
+</div>
+

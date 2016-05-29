@@ -42,7 +42,7 @@
                                 @foreach (var item in group)
                                 {
                                     <tr>
-                                        <td>@Html.ActionLink(Html.DisplayFor(book => item.ISBN).ToString(), "Details", new { id = item.BookId })</td>
+                                        <td>@Html.ActionLink(Html.DisplayFor(book => item.ISBN).ToString(), "Details", "Books", new { id = item.BookId }, null)</td>
                                         <td>@Html.DisplayFor(book => item.YearPrinted)</td>
                                         <td>@Html.DisplayFor(book => item.UserFullName)</td>
                                         <td>@Html.DisplayFor(book => item.BorrowDate)</td>

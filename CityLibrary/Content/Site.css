@@ -121,14 +121,13 @@ hr {
 }
 
 td.hidden-row {
-    padding-top: 0px !important;
-    padding-bottom: 0px !important;
+    padding: 0px !important;
     border-top: none !important;
 }
 
 
 div.table-div {
-    padding: 0px 80px 0px 30px;
+    padding: 0px 0px 0px 10px;
     border-top: 1px solid #ddd;
     
 }
@@ -188,6 +187,9 @@ dl.book-details-dl > dt {
     padding-bottom: 5px;
 }
 
+dl.book-details-dl {
+    margin-bottom: 0px;
+}
 
 .form-control-fixed-width {
     max-width: initial;
@@ -198,4 +200,18 @@ div.vertical-separator {
     height: 5px;
 }
 
+.collection-actions > .btn {
+  width: 100%; 
+}
 
+.collection-actions > ul.dropdown-menu {
+    min-width: 0px;
+}
+
+div.margin-separator {
+    padding: 15px 0px;
+}
+
+.form-custom {
+    margin-bottom: 0px;
+}

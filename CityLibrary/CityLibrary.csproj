@@ -187,6 +187,10 @@
     <Compile Include="DAL\Migrations\LibraryMigrations\201605181520265_ThirdUpdate.Designer.cs">
       <DependentUpon>201605181520265_ThirdUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="DAL\Migrations\LibraryMigrations\201605291058539_Update4.cs" />
+    <Compile Include="DAL\Migrations\LibraryMigrations\201605291058539_Update4.Designer.cs">
+      <DependentUpon>201605291058539_Update4.cs</DependentUpon>
+    </Compile>
     <Compile Include="DAL\Migrations\LibraryMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -195,6 +199,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Library\Book.cs" />
     <Compile Include="Models\Library\BookCollection.cs" />
+    <Compile Include="Models\Library\BookType.cs" />
     <Compile Include="ViewModels\BookBorrowViewModel.cs" />
     <Compile Include="Models\Library\LibraryUser.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -276,7 +281,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Collections\Index.cshtml" />
-    <Content Include="Views\Collections\AvailableBooks.cshtml" />
+    <Content Include="Views\Collections\CollectionBooks.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
     <Content Include="Views\Books\Author.cshtml" />
     <Content Include="Views\Shared\_BookList.cshtml" />
@@ -289,6 +294,11 @@
     <Content Include="Views\Shared\_AddCopy_LoadAuthors.cshtml" />
     <Content Include="Views\Shared\_TestPartial.cshtml" />
     <Content Include="Views\Shared\_AddCopy_Details.cshtml" />
+    <Content Include="Views\Collections\Delete.cshtml" />
+    <Content Include="Views\Collections\AddBook.cshtml" />
+    <Content Include="Views\Collections\_LoadBook.cshtml" />
+    <Content Include="Views\Collections\Create.cshtml" />
+    <Content Include="Views\Collections\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -308,6 +318,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DAL\Migrations\LibraryMigrations\201605181520265_ThirdUpdate.resx">
       <DependentUpon>201605181520265_ThirdUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\Migrations\LibraryMigrations\201605291058539_Update4.resx">
+      <DependentUpon>201605291058539_Update4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

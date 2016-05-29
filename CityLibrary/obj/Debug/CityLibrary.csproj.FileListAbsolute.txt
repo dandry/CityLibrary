@@ -71,3 +71,4 @@ D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.csp
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.csprojResolveAssemblyReference.cache
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.DAL.Migrations.LibraryMigrations.ThirdCreate.resources
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.DAL.Migrations.LibraryMigrations.ThirdUpdate.resources
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.DAL.Migrations.LibraryMigrations.Update4.resources

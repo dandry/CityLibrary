@@ -71,3 +71,8 @@ var onSuccess = function (result) {
         window.location.href = result.url;
     }
 };
+
+var animateBookLoad = function () {
+
+    $('#bookDetailsPlaceHolder').slideDown("slow");
+};
