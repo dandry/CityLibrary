@@ -117,11 +117,60 @@ namespace CityLibrary.Controllers
             return View(collection);
         }
 
-        public ActionResult LoadBook(int id, string bookTitle)
+
+        public JsonResult Autocomplete(string term)
         {
-            var book = db.LibraryBooks
-                .Where(b => b.Title.Contains(bookTitle))
-                .FirstOrDefault();
+
+            var result = db.LibraryBooks
+                .Where(b => b.Title.Contains(term))
+                .GroupBy(b => b.Title)
+                .Select(b => b.FirstOrDefault())
+                .Take(10)
+                .Select(b => new
+                {
+                    value = b.Title + " | " + b.Author
+                });
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult LoadBook(int id, string bookDetails)
+        {
+
+            // 'bookDetails' parameter format received by jQuery autocomplete: "BookTitle | BookAuthor" 
+
+            var bookDetailsArray = bookDetails.Split(new string[] { " | " }, StringSplitOptions.None);
+            // if a normal string (w/o autocomplete) has been passed, the array contains only one element (no split occured)
+
+            Book book;
+
+            if (bookDetailsArray.Count() == 1)
+            {
+                // custom search string passed
+                var books = db.LibraryBooks
+                    .Where(b => (b.Title.Contains(bookDetails)) || b.Author.Contains(bookDetails))
+                    .GroupBy(b => b.Title)
+                    .Select(b => b.FirstOrDefault())
+                    .ToList();
+
+                // there are more than one entry to display, so search string is not specific enough
+                if (books.Count > 1)
+                {
+                    return new EmptyResult();
+                }
+
+                book = books.FirstOrDefault();
+            }
+            else
+            {
+                // jQuery autocomplete format passed
+                var title = bookDetailsArray[0];
+                var author = bookDetailsArray[1];
+
+                book = db.LibraryBooks
+                    .Where(b => (b.Title.Contains(title)) && b.Author.Contains(author))
+                    .FirstOrDefault();
+            }
 
             if (book == null)
             {
@@ -136,7 +185,7 @@ namespace CityLibrary.Controllers
         [HttpPost]
         public ActionResult AddCopy(int id, string title, string author)
         {
-            
+
             var books = db.LibraryBooks
                 .Where(b => (b.Author.ToLower().Contains(author.ToLower()))
                 && (b.Title.ToLower().Contains(title.ToLower())))
@@ -247,7 +296,7 @@ namespace CityLibrary.Controllers
                 db.BookCollections.Remove(collection);
                 db.SaveChanges();
             }
-            
+
             return RedirectToAction("Index");
         }
     }

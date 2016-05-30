@@ -1,5 +1,9 @@
 ﻿@model CityLibrary.Models.Library.BookCollection
 
+@section Styles {
+    @Styles.Render("~/Content/themes/base/all.css")
+}
+
 @{
     ViewBag.Title = "Dodaj książkę do kolekcji " + Model.Name;
 }
@@ -19,7 +23,7 @@
     <div class="form-horizontal">
         <div class="form-group form-custom">
             <div class="col-md-12">
-                @Html.TextBox("bookTitle", null, new { @class = "form-control pull-left", @placeholder = "Szukaj tytułu" })
+                @Html.TextBox("bookDetails", null, new { @class = "form-control pull-left", @placeholder = "Szukaj tytułu", data_source_autocomplete = Url.Action("Autocomplete") })
                 <span class="input-group-btn">
                     <button id="addCopySearchBtn" class="btn btn-default" type="submit">
                         <span class="glyphicon glyphicon-search"></span>

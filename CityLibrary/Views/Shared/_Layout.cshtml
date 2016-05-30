@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Biblioteka Kukuryki</title>
     @Styles.Render("~/Content/css")
+    @RenderSection("Styles", false)
     @Scripts.Render("~/bundles/modernizr")
-
+    
 
 </head>
 <body>
@@ -43,6 +44,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/customscripts")

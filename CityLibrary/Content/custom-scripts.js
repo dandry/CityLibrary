@@ -76,3 +76,26 @@ var animateBookLoad = function () {
 
     $('#bookDetailsPlaceHolder').slideDown("slow");
 };
+
+var submitAutocompleteForm = function (event, ui) {
+
+    var $input = $(this);
+    $input.val(ui.item.value);
+
+    var $form = $input.parents("form:first");
+    $form.submit();
+};
+
+var createAutoComplete = function () {
+
+    var $input = $(this);
+
+    var options = {
+        source: $input.attr("data-source-autocomplete"),
+        select: submitAutocompleteForm
+    };
+
+    $input.autocomplete(options);
+};
+$("input[data-source-autocomplete]").each(createAutoComplete);
+
