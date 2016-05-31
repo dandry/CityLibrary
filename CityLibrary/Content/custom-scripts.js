@@ -4,9 +4,10 @@
 });
 
 $(document).ready(function () {
-    var controllerPath = this.location.pathname.split("/")[1];
+    var locationPath = this.location.pathname.split("/")[1];
 
-    $('a[href="/' + controllerPath + '"]').parent().addClass('active');
+
+    $('#navbar-links').children('li').children('a[href="/' + locationPath + '"]').parent().addClass('active');
 });
 
 var confirmReturn = function () {
@@ -14,7 +15,7 @@ var confirmReturn = function () {
 };
 
 var confirmDelete = function () {
-    var confirmation = prompt('Czy na pewno chcesz usunąć tę książkę? \n\nWpisz TAK aby potwierdzić.');
+    var confirmation = prompt('Czy na pewno chcesz usunąć wybraną pozycję? \n\nWpisz TAK aby potwierdzić.');
 
     if (confirmation == 'TAK') {
         return true;
@@ -99,3 +100,12 @@ var createAutoComplete = function () {
 };
 $("input[data-source-autocomplete]").each(createAutoComplete);
 
+$(document).ready(function () {
+    $('[data-tooltip="tooltip"]').tooltip();
+});
+
+// Fill modal with content from link href
+$("#myModal").on("show.bs.modal", function (e) {
+    var link = $(e.relatedTarget);
+    $(this).find(".modal-content").load(link.attr("href"));
+});

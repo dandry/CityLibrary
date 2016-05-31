@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="col-md-7">
-                <dl class="dl-horizontal book-details-dl">
+                <dl class="dl-horizontal custom-details-dl">
                     <dt>@Html.DisplayNameFor(m => m.ISBN)</dt>
                     <dd>@Html.DisplayFor(m => m.ISBN)</dd>
 
@@ -51,7 +51,7 @@
                     
                 </dl>
             </div>
-            <div class="col-md-3 book-details-actions">
+            <div class="col-md-3 details-actions">
                 <div>
                         @Html.ActionLink("Wypożycz", "Borrow", new { id = Model.BookId }, new { @class = "btn btn-success btn-block " + ViewBag.BorrowButtonDisabledAttribute })    
                 </div>
@@ -74,6 +74,7 @@
                 <div>
                     @using (Html.BeginForm("Delete", "Books", new { id = Model.BookId }))
                     {
+                        @Html.AntiForgeryToken()
                         <input type="submit" value="Usuń" class="btn btn-danger btn-block" onclick="return confirmDelete()" />
                     }
                 </div>

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace CityLibrary.DAL
 {
-    //public class LibraryInitializer : DropCreateDatabaseAlways<LibraryContext>
+    //public class LibraryInitializer : DropCreateDatabaseIfModelChanges<LibraryContext>
     //{
     //    protected override void Seed(LibraryContext context)
     //    {

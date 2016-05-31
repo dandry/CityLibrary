@@ -1,6 +1,6 @@
 ﻿@model ILookup<string, CityLibrary.Models.Library.Book>
 
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th></th>
@@ -27,7 +27,7 @@
             <tr>
                 <td colspan="6" class="hidden-row">
                     <div class="collapse table-div" id="demo@(group.First().BookId)">
-                        <table class="table table-condensed inner-table">
+                        <table class="table table-condensed inner-table table-striped">
                             <thead>
                                 <tr>
                                     <th class="col-md-2">@Html.DisplayNameFor(item => group.First().ISBN)</th>

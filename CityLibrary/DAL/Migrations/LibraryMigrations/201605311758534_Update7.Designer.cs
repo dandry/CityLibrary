@@ -7,13 +7,13 @@ namespace CityLibrary.DAL.Migrations.LibraryMigrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ThirdUpdate : IMigrationMetadata
+    public sealed partial class Update7 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ThirdUpdate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Update7));
         
         string IMigrationMetadata.Id
         {
-            get { return "201605181520265_ThirdUpdate"; }
+            get { return "201605311758534_Update7"; }
         }
         
         string IMigrationMetadata.Source

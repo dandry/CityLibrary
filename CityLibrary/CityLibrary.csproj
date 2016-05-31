@@ -173,23 +173,34 @@
     <Compile Include="Controllers\CollectionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="DAL\ILibraryUserRepository.cs" />
     <Compile Include="DAL\LibraryContext.cs" />
     <Compile Include="DAL\LibraryInitializer.cs" />
+    <Compile Include="DAL\LibraryUserRepository.cs" />
     <Compile Include="DAL\Migrations\LibraryMigrations\201605171343592_InitialCreate.cs" />
     <Compile Include="DAL\Migrations\LibraryMigrations\201605171343592_InitialCreate.Designer.cs">
       <DependentUpon>201605171343592_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="DAL\Migrations\LibraryMigrations\201605181305088_ThirdCreate.cs" />
-    <Compile Include="DAL\Migrations\LibraryMigrations\201605181305088_ThirdCreate.Designer.cs">
-      <DependentUpon>201605181305088_ThirdCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DAL\Migrations\LibraryMigrations\201605181520265_ThirdUpdate.cs" />
-    <Compile Include="DAL\Migrations\LibraryMigrations\201605181520265_ThirdUpdate.Designer.cs">
-      <DependentUpon>201605181520265_ThirdUpdate.cs</DependentUpon>
-    </Compile>
     <Compile Include="DAL\Migrations\LibraryMigrations\201605291058539_Update4.cs" />
     <Compile Include="DAL\Migrations\LibraryMigrations\201605291058539_Update4.Designer.cs">
       <DependentUpon>201605291058539_Update4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Migrations\LibraryMigrations\201605310742353_Update5.cs" />
+    <Compile Include="DAL\Migrations\LibraryMigrations\201605310742353_Update5.Designer.cs">
+      <DependentUpon>201605310742353_Update5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Migrations\LibraryMigrations\201605311148276_Update6.cs" />
+    <Compile Include="DAL\Migrations\LibraryMigrations\201605311148276_Update6.Designer.cs">
+      <DependentUpon>201605311148276_Update6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Migrations\LibraryMigrations\201605311758534_Update7.cs" />
+    <Compile Include="DAL\Migrations\LibraryMigrations\201605311758534_Update7.Designer.cs">
+      <DependentUpon>201605311758534_Update7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\Migrations\LibraryMigrations\201605311810040_Update8.cs" />
+    <Compile Include="DAL\Migrations\LibraryMigrations\201605311810040_Update8.Designer.cs">
+      <DependentUpon>201605311810040_Update8.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\Migrations\LibraryMigrations\Configuration.cs" />
     <Compile Include="Global.asax.cs">
@@ -334,6 +345,11 @@
     <Content Include="Views\Collections\_LoadBook.cshtml" />
     <Content Include="Views\Collections\Create.cshtml" />
     <Content Include="Views\Collections\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Shared\_UserBookList.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Shared\_Modal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -348,14 +364,20 @@
     <EmbeddedResource Include="DAL\Migrations\LibraryMigrations\201605171343592_InitialCreate.resx">
       <DependentUpon>201605171343592_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DAL\Migrations\LibraryMigrations\201605181305088_ThirdCreate.resx">
-      <DependentUpon>201605181305088_ThirdCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DAL\Migrations\LibraryMigrations\201605181520265_ThirdUpdate.resx">
-      <DependentUpon>201605181520265_ThirdUpdate.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="DAL\Migrations\LibraryMigrations\201605291058539_Update4.resx">
       <DependentUpon>201605291058539_Update4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\Migrations\LibraryMigrations\201605310742353_Update5.resx">
+      <DependentUpon>201605310742353_Update5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\Migrations\LibraryMigrations\201605311148276_Update6.resx">
+      <DependentUpon>201605311148276_Update6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\Migrations\LibraryMigrations\201605311758534_Update7.resx">
+      <DependentUpon>201605311758534_Update7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DAL\Migrations\LibraryMigrations\201605311810040_Update8.resx">
+      <DependentUpon>201605311810040_Update8.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

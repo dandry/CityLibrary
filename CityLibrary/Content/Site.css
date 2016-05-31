@@ -157,12 +157,12 @@ div.div-blankspace {
     margin: 20px 0px;
 }
 
-div.book-details-actions {
+div.details-actions {
     border-left: 1px solid #8c8c8c;
     padding-right: 45px;
 }
 
-div.book-details-actions > div {
+div.details-actions > div {
     padding: 2px 0px;
 }
 
@@ -181,13 +181,13 @@ div.book-temp-cover {
     text-align: center;
 }
 
-dl.book-details-dl > dt {
+dl.custom-details-dl > dt {
     border-right: 1px solid #cccccc;
     padding-right: 10px;
     padding-bottom: 5px;
 }
 
-dl.book-details-dl {
+dl.custom-details-dl {
     margin-bottom: 0px;
 }
 
@@ -215,3 +215,4 @@ div.margin-separator {
 .form-custom {
     margin-bottom: 0px;
 }
+

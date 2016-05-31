@@ -208,6 +208,7 @@ namespace CityLibrary.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             var book = db.LibraryBooks.Find(id);
@@ -313,6 +314,15 @@ namespace CityLibrary.Controllers
                 result = !db.LibraryBooks.Any(b => b.ISBN == ISBN);
             }
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
     }

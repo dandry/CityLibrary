@@ -50,7 +50,6 @@ namespace CityLibrary.Models.Library
 
         [DataType(DataType.Date)]
         [Display(Name = "Data zwrotu")]
-        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime? ReturnDate { get; set; }
 
@@ -58,10 +57,7 @@ namespace CityLibrary.Models.Library
         public virtual LibraryUser LibraryUser { get; set; }
 
 
-        /// <summary>
-        /// Not mapped properties
-        /// </summary>
-
+        // Not mapped properties
         [NotMapped]
         [Display(Name = "Pozostało dni")]
         public int? DaysLeft

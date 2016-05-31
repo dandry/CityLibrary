@@ -117,7 +117,6 @@ namespace CityLibrary.Controllers
             return View(collection);
         }
 
-
         public JsonResult Autocomplete(string term)
         {
 
@@ -298,6 +297,15 @@ namespace CityLibrary.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
