@@ -19,7 +19,7 @@
                     <span class="glyphicon glyphicon-chevron-down"></span>
                 </td>
                 <td>@Html.DisplayFor(book => group.First().Title)</td>
-                <td>@Html.ActionLink(Html.DisplayFor(book => group.First().Author).ToString(), "Author", new { name = group.First().Author })</td>
+                <td>@Html.ActionLink(Html.DisplayFor(book => group.First().Author).ToString(), "Authors", new { name = group.First().Author })</td>
                 <td>@Html.DisplayFor(book => group.First().Publisher)</td>
                 <td>@Html.DisplayFor(book => group.First().Collection.Name)</td>
                 <td class="text-center">@Html.DisplayFor(item => group.ToList().Count)</td>

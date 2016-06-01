@@ -9,67 +9,70 @@
 <hr />
 
 <table class="table table-striped">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PESEL)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayName("Książki")
-        </th>
-        <th>
-            Akcje
-        </th>
-    </tr>
-
-@foreach (var user in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink(Html.DisplayFor(modelItem => user.LastName).ToString(), "Details", new { id = user.UserId })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => user.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => user.PESEL)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => user.DateOfBirth)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => user.Email)
-        </td>
-        <td>
-            <a href="@Url.Action("LoadUserBooks", new { id = user.UserId })" role="button" class="btn btn-default btn-xs" data-tooltip="tooltip" title="Wypożyczone/zwrócone" data-toggle="modal" data-target="#myModal">
-                @Html.DisplayFor(modelItem => user.BorrowedBooks.Count) / 5 @*5 is a test value, not yet implemented*@
-            </a>
-        </td>
-        <td class="col-md-1">
-            <div class="dropdown collection-actions">
-                <button class="btn btn-xs btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                    Akcje
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu ">
-                    <li>@Html.ActionLink("Szczegóły", "Details", new { id = user.UserId })</li>
-                    <li>@Html.ActionLink("Edytuj", "Edit", new { id = user.UserId })</li>
-                </ul>
-            </div>
-        </td>
-    </tr>
-}
-
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PESEL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayName("Książki")
+            </th>
+            <th>
+                Akcje
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(Html.DisplayFor(modelItem => user.LastName).ToString(), "Details", new { id = user.UserId })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.PESEL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Email)
+                </td>
+                <td>
+                    <a href="@Url.Action("LoadUserBooks", new { id = user.UserId })" role="button" class="btn btn-default btn-xs" data-tooltip="tooltip" title="Wypożyczone/zwrócone" data-toggle="modal" data-target="#myModal">
+                        @Html.DisplayFor(modelItem => user.BorrowedBooks.Count) / 5 @*5 is a test value, not yet implemented*@
+                    </a>
+                </td>
+                <td class="col-md-1">
+                    <div class="dropdown collection-actions">
+                        <button class="btn btn-xs btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                            Akcje
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu ">
+                            <li>@Html.ActionLink("Szczegóły", "Details", new { id = user.UserId })</li>
+                            <li>@Html.ActionLink("Edytuj", "Edit", new { id = user.UserId })</li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 
 @Html.Partial("_Modal")

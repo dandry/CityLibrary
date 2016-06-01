@@ -102,20 +102,27 @@ namespace CityLibrary.Controllers
             return PartialView("_AddCopy_Details", book);
         }
 
-        public ActionResult Author(string name)
+        public ActionResult Authors(string name)
         {
             if (name == null)
             {
-                return RedirectToAction("Index");
+                var queriedBooks = db.LibraryBooks
+                    .OrderBy(b => b.Author)
+                    .ToLookup(b => b.Title);
+
+                return View(queriedBooks);
             }
+            else
+            {
+                var queriedBooks = db.LibraryBooks
+                    .Where(b => b.Author.Contains(name))
+                    .OrderBy(b => b.Title)
+                    .ToLookup(b => b.Title);
 
-            var queriedBooks = db.LibraryBooks
-                .Where(b => b.Author.Contains(name))
-                .ToLookup(b => b.Title);
+                ViewBag.AuthorName = name;
 
-            ViewBag.AuthorName = name;
-
-            return View(queriedBooks);
+                return View(queriedBooks);
+            }
         }
 
         public ActionResult Details(int id)

@@ -217,9 +217,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\BookCollectionViewModel.cs" />
-    <Compile Include="ViewModels\BookCreateViewModel.cs" />
-    <Compile Include="ViewModels\BookListViewModel.cs" />
-    <Compile Include="ViewModels\BookViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -329,7 +326,7 @@
     <Content Include="Views\Collections\Index.cshtml" />
     <Content Include="Views\Collections\CollectionBooks.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
-    <Content Include="Views\Books\Author.cshtml" />
+    <Content Include="Views\Books\Authors.cshtml" />
     <Content Include="Views\Shared\_BookList.cshtml" />
     <Content Include="Views\Books\Details.cshtml" />
     <Content Include="Views\Books\Edit.cshtml" />

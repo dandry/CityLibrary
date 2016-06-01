@@ -4,10 +4,24 @@
 });
 
 $(document).ready(function () {
-    var locationPath = this.location.pathname.split("/")[1];
 
+    var locationPathArray = this.location.pathname.split("/");
 
-    $('#navbar-links').children('li').children('a[href="/' + locationPath + '"]').parent().addClass('active');
+    var controllerName = locationPathArray[1];
+    var actionName = locationPathArray[2];
+
+    var $navbarLinks = $('#navbar-links').children('li');
+
+    if (actionName != null && (actionName.startsWith('Authors') || actionName.startsWith('Publishers')))
+    {
+        //trim from redundant query strings, as no '/id' is ever passed
+        actionName = actionName.split("?")[0];
+        $navbarLinks.children('a[href="/' + controllerName + '/' + actionName + '"]').parent().addClass('active');
+    }
+    else
+    {
+        $navbarLinks.children('a[href="/' + controllerName + '"]').parent().addClass('active');
+    }
 });
 
 var confirmReturn = function () {
