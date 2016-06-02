@@ -168,11 +168,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Attributes\BookPrintDateRangeAttribute.cs" />
+    <Compile Include="BL\AutocompleteBookLoad.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AuthorsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\CollectionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PublishersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DAL\ILibraryUserRepository.cs" />
     <Compile Include="DAL\LibraryContext.cs" />
@@ -211,6 +214,7 @@
     <Compile Include="Models\Library\Book.cs" />
     <Compile Include="Models\Library\BookCollection.cs" />
     <Compile Include="Models\Library\BookType.cs" />
+    <Compile Include="ViewModels\AuthorPublisherViewModel.cs" />
     <Compile Include="ViewModels\BookBorrowViewModel.cs" />
     <Compile Include="Models\Library\LibraryUser.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -219,6 +223,7 @@
     <Compile Include="ViewModels\BookCollectionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\autocomplete-scripts.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -326,7 +331,7 @@
     <Content Include="Views\Collections\Index.cshtml" />
     <Content Include="Views\Collections\CollectionBooks.cshtml" />
     <Content Include="Views\Books\Index.cshtml" />
-    <Content Include="Views\Books\Authors.cshtml" />
+    <Content Include="Views\Authors\Details.cshtml" />
     <Content Include="Views\Shared\_BookList.cshtml" />
     <Content Include="Views\Books\Details.cshtml" />
     <Content Include="Views\Books\Edit.cshtml" />
@@ -335,7 +340,6 @@
     <Content Include="Views\Books\AddCopy.cshtml" />
     <Content Include="Views\Shared\_AddCopy_LoadAuthorBooks.cshtml" />
     <Content Include="Views\Shared\_AddCopy_LoadAuthors.cshtml" />
-    <Content Include="Views\Shared\_TestPartial.cshtml" />
     <Content Include="Views\Shared\_AddCopy_Details.cshtml" />
     <Content Include="Views\Collections\Delete.cshtml" />
     <Content Include="Views\Collections\AddBook.cshtml" />
@@ -347,6 +351,15 @@
     <Content Include="Views\Shared\_UserBookList.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Shared\_Modal.cshtml" />
+    <Content Include="Views\Authors\Index.cshtml" />
+    <Content Include="Views\Publishers\Details.cshtml" />
+    <Content Include="Views\Shared\_AuthorPublisherList.cshtml" />
+    <Content Include="Views\Publishers\Index.cshtml" />
+    <Content Include="Views\Shared\_BorrowBook.cshtml" />
+    <Content Include="Views\Shared\_BorrowBook_LoadBooks.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\_UserList.cshtml" />
+    <Content Include="Web_ConnectionStrings.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

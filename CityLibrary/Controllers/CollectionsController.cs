@@ -7,12 +7,15 @@ using System.Web;
 using System.Web.Mvc;
 using CityLibrary.Models.Library;
 using System.Data.Entity;
+using CityLibrary.BL;
 
 namespace CityLibrary.Controllers
 {
+    [Authorize]
     public class CollectionsController : Controller
     {
         LibraryContext db = new LibraryContext();
+        AutocompleteBookLoad acBookLoad = new AutocompleteBookLoad();
 
         public ActionResult Index()
         {
@@ -117,69 +120,21 @@ namespace CityLibrary.Controllers
             return View(collection);
         }
 
-        public JsonResult Autocomplete(string term)
+        [HttpPost]
+        public ActionResult LoadBook(int id, string bookDetails, bool autoCompleteSource)
         {
+            IEnumerable<Book> books = acBookLoad.FilterBooksToList(db, bookDetails, autoCompleteSource);
 
-            var result = db.LibraryBooks
-                .Where(b => b.Title.Contains(term))
-                .GroupBy(b => b.Title)
-                .Select(b => b.FirstOrDefault())
-                .Take(10)
-                .Select(b => new
-                {
-                    value = b.Title + " | " + b.Author
-                });
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult LoadBook(int id, string bookDetails)
-        {
-
-            // 'bookDetails' parameter format received by jQuery autocomplete: "BookTitle | BookAuthor" 
-
-            var bookDetailsArray = bookDetails.Split(new string[] { " | " }, StringSplitOptions.None);
-            // if a normal string (w/o autocomplete) has been passed, the array contains only one element (no split occured)
-
-            Book book;
-
-            if (bookDetailsArray.Count() == 1)
+            if (books == null)
             {
-                // custom search string passed
-                var books = db.LibraryBooks
-                    .Where(b => (b.Title.Contains(bookDetails)) || b.Author.Contains(bookDetails))
-                    .GroupBy(b => b.Title)
-                    .Select(b => b.FirstOrDefault())
-                    .ToList();
-
-                // there are more than one entry to display, so search string is not specific enough
-                if (books.Count > 1)
-                {
-                    return new EmptyResult();
-                }
-
-                book = books.FirstOrDefault();
-            }
-            else
-            {
-                // jQuery autocomplete format passed
-                var title = bookDetailsArray[0];
-                var author = bookDetailsArray[1];
-
-                book = db.LibraryBooks
-                    .Where(b => (b.Title.Contains(title)) && b.Author.Contains(author))
-                    .FirstOrDefault();
-            }
-
-            if (book == null)
-            {
-                return RedirectToAction("Index");
+                return new EmptyResult();
             }
 
             ViewBag.CollectionId = id;
-
-            return PartialView("_LoadBook", book);
+            return PartialView("_LoadBook", books);
         }
+
+
 
         [HttpPost]
         public ActionResult AddCopy(int id, string title, string author)

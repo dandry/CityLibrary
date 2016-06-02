@@ -1,0 +1,27 @@
+﻿@model IEnumerable<CityLibrary.ViewModels.AuthorPublisherViewModel>
+
+<div id="authorPublisherList">
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Name)</th>
+                        <th>@Html.DisplayNameFor(model => model.BookCount)</th>
+                        <th>@Html.DisplayNameFor(model => model.CopyCount)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(Html.DisplayFor(model => item.Name).ToString(), "Details", new { name = item.Name })</td>
+                            <td>@Html.DisplayFor(model => item.BookCount)</td>
+                            <td>@Html.DisplayFor(model => item.CopyCount)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

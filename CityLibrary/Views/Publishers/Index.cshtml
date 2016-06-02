@@ -1,36 +1,33 @@
-﻿@model IEnumerable<CityLibrary.Models.Library.LibraryUser>
+﻿@model IEnumerable<CityLibrary.ViewModels.AuthorPublisherViewModel>
 
 @section Styles {
     @Styles.Render("~/Content/themes/base/all.css")
 }
 
 @{
-    ViewBag.Title = "Użytkownicy";
+    ViewBag.Title = "Lista wydawnictw";
 }
 
-<h2>Użytkownicy</h2>
+<h2>Lista wydawnictw</h2>
 
 <hr />
 <div class="div-blankspace">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
-                <div class="pull-left">
-                    @Html.ActionLink("Dodaj użytkownika", "Create", null, new { @class = "btn btn-default" })
-                </div>
+            <div class="col-md-5">
                 <div class="vertical-separator pull-left"></div>
                 @using (Ajax.BeginForm(new AjaxOptions
                 {
                     HttpMethod = "GET",
                     InsertionMode = InsertionMode.Replace,
-                    UpdateTargetId = "userList",
-                    OnSuccess = "animateListContentLoad(userList)"
+                    UpdateTargetId = "authorPublisherList",
+                    OnSuccess = "animateListContentLoad(authorPublisherList)"
                 }))
                 {
                     @Html.Hidden("autocompletesource", false)
 
                     <div class="input-group">
-                        @Html.TextBox("userName", null, new { @class = "form-control form-control-fixed-width", @placeholder = "Filtruj użytkownika...", data_source_autocomplete = Url.Action("Autocomplete") })
+                        @Html.TextBox("publisherName", null, new { @class = "form-control form-control-fixed-width", @placeholder = "Filtruj wydawnictwo...", data_source_autocomplete = Url.Action("Autocomplete") })
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
@@ -44,6 +41,4 @@
     </div>
 </div>
 
-@Html.Partial("_UserList", Model)
-
-@Html.Partial("_Modal")
+@Html.Partial("_AuthorPublisherList", Model)
