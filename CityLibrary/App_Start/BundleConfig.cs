@@ -31,7 +31,7 @@ namespace CityLibrary
                       "~/Content/site.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/customscripts").Include(
-                      "~/Content/custom-scripts.js"));
+                      "~/Scripts/custom-scripts.js"));
         }
     }
 }
