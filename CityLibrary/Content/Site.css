@@ -230,3 +230,7 @@ ul.pagination {
 div.content-navigation {
     padding: 0px 15px;
 }
+
+ul.ui-autocomplete {
+    z-index: 1100;
+}

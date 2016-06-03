@@ -36,7 +36,7 @@ namespace CityLibrary.ViewModels
             }
         }
 
-        public List<LibraryUser> Users { get; set; }
+        public IEnumerable<LibraryUser> Users { get; set; }
 
         public IEnumerable<SelectListItem> UserList
         {

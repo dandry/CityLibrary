@@ -15,13 +15,23 @@ namespace CityLibrary.Controllers
     [Authorize]
     public class CollectionsController : Controller
     {
-        LibraryContext db = new LibraryContext();
-        AutocompleteBookLoad acBookLoad = new AutocompleteBookLoad();
+        IUnitOfWork uow;
+        BookFilter bf;
+
+        public CollectionsController() : this (new UnitOfWork())
+        {
+        }
+
+        public CollectionsController(IUnitOfWork uow)
+        {
+            this.uow = uow;
+            bf = new BookFilter(uow);
+        }
 
         public ActionResult Index(int page = 1)
         {
-            var collections = db.BookCollections
-                .OrderBy(bc => bc.Name)
+            var collections = uow.BookCollectionRepository.Get(
+                filter: c => c.Name.Contains(""), orderBy: q => q.OrderBy(c => c.Name))
                 .ToList();
                 
             if (collections == null)
@@ -47,9 +57,9 @@ namespace CityLibrary.Controllers
             return View(collectionViewModelPagedList);
         }
 
-        public ActionResult Books(int id, BookType type, string search)
+        public ActionResult Books(int id, BookType type, string search = "")
         {
-            var collection = db.BookCollections.Find(id);
+            var collection = uow.BookCollectionRepository.GetById(id);
 
             if (collection == null)
             {
@@ -60,65 +70,14 @@ namespace CityLibrary.Controllers
             ViewBag.CollectionId = collection.CollectionId;
             ViewBag.BookType = type;
 
-            ILookup<string, Book> lookup;
+            var books = bf.FilterByType(id, type, search).ToLookup(b => b.Title);
 
-            if (type == BookType.Available)
-            {
-                if (search != null)
-                {
-                    lookup = collection.CollectionBooks
-                    .Where(b => b.UserId == null)
-                    .Where(b => b.Title.ToLower()
-                    .Contains(search.ToLower()))
-                    .ToLookup(b => b.Title);
-                }
-                else
-                {
-                    lookup = collection.CollectionBooks
-                    .Where(b => b.UserId == null)
-                    .ToLookup(b => b.Title);
-                }
-
-            }
-            else if (type == BookType.Borrowed)
-            {
-                if (search != null)
-                {
-                    lookup = collection.CollectionBooks
-                    .Where(b => b.UserId != null)
-                    .Where(b => b.Title.ToLower()
-                    .Contains(search.ToLower()))
-                    .ToLookup(b => b.Title);
-                }
-                else
-                {
-                    lookup = collection.CollectionBooks
-                    .Where(b => b.UserId != null)
-                    .ToLookup(b => b.Title);
-                }
-            }
-            else //all books
-            {
-                if (search != null)
-                {
-                    lookup = collection.CollectionBooks
-                    .Where(b => b.Title.ToLower()
-                    .Contains(search.ToLower()))
-                    .ToLookup(b => b.Title);
-                }
-                else
-                {
-                    lookup = collection.CollectionBooks
-                    .ToLookup(b => b.Title);
-                }
-            }
-
-            return View("CollectionBooks", lookup);
+            return View("CollectionBooks", books);
         }
 
         public ActionResult AddBook(int id)
         {
-            var collection = db.BookCollections.Find(id);
+            var collection = uow.BookCollectionRepository.GetById(id);
 
             if (collection == null)
             {
@@ -131,7 +90,7 @@ namespace CityLibrary.Controllers
         [HttpPost]
         public ActionResult LoadBook(int id, string bookDetails, bool autoCompleteSource)
         {
-            IEnumerable<Book> books = acBookLoad.FilterBooksToList(db, bookDetails, autoCompleteSource);
+            var books = bf.FilterByAutocomplete(bookDetails, autoCompleteSource);
 
             if (books == null)
             {
@@ -142,18 +101,16 @@ namespace CityLibrary.Controllers
             return PartialView("_LoadBook", books);
         }
 
-
-
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult AddCopy(int id, string title, string author)
         {
+            var books = uow.BookRepository.Get(filter:
+                b => b.CollectionId.Equals(id)
+                && b.Title.Contains(title)
+                && b.Author.Contains(author));
 
-            var books = db.LibraryBooks
-                .Where(b => (b.Author.ToLower().Contains(author.ToLower()))
-                && (b.Title.ToLower().Contains(title.ToLower())))
-                .ToList();
-
-            var collection = db.BookCollections.Find(id);
+            var collection = uow.BookCollectionRepository.GetById(id);
 
             if (books == null || collection == null)
             {
@@ -165,9 +122,8 @@ namespace CityLibrary.Controllers
                 collection.CollectionBooks.Add(b);
             }
 
-            db.Entry(collection).State = EntityState.Modified;
-
-            db.SaveChanges();
+            uow.BookCollectionRepository.Update(collection);
+            uow.Save();
 
             return RedirectToAction("Books", new { id = id, type = BookType.All });
         }
@@ -178,14 +134,15 @@ namespace CityLibrary.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(BookCollection collection)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.BookCollections.Add(collection);
-                    db.SaveChanges();
+                    uow.BookCollectionRepository.Insert(collection);
+                    uow.Save();
 
                     return RedirectToAction("Index");
                 }
@@ -201,7 +158,7 @@ namespace CityLibrary.Controllers
 
         public ActionResult Edit(int id)
         {
-            var collection = db.BookCollections.Find(id);
+            var collection = uow.BookCollectionRepository.GetById(id);
 
             if (collection == null)
             {
@@ -212,14 +169,15 @@ namespace CityLibrary.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(BookCollection collection)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    db.Entry(collection).State = EntityState.Modified;
-                    db.SaveChanges();
+                    uow.BookCollectionRepository.Update(collection);
+                    uow.Save();
 
                     return RedirectToAction("Books", "Collections", new { id = collection.CollectionId, type = BookType.All });
                 }
@@ -236,7 +194,7 @@ namespace CityLibrary.Controllers
 
         public ActionResult Delete(int id)
         {
-            var collection = db.BookCollections.Find(id);
+            var collection = uow.BookCollectionRepository.GetById(id);
 
             if (collection == null)
             {
@@ -251,24 +209,19 @@ namespace CityLibrary.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var collection = db.BookCollections.Find(id);
+            var collection = uow.BookCollectionRepository.GetById(id);
 
-            if (collection != null)
+            if (collection.CollectionBooks.Count > 0)
             {
-                db.BookCollections.Remove(collection);
-                db.SaveChanges();
+                ModelState.AddModelError(String.Empty, "Nie można usunąć wybranej kolekcji, ponieważ znajdują się w niej książki.");
+
+                return View(collection);
             }
+
+            uow.BookCollectionRepository.Delete(collection);
+            uow.Save();
 
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

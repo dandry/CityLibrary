@@ -58,12 +58,14 @@
                 <div>
                     @using (Html.BeginForm("Prolong", "Books", new { id = Model.BookId }))
                     {
+                        @Html.AntiForgeryToken()
                         <input type="submit" value="Przedłuż" class="btn btn-info btn-block @ViewBag.ProlongReturnButtonsDisabledAttribute" onclick="return confirmAction()"/>
                     }
                 </div>
                 <div>
                     @using (Html.BeginForm("Return", "Books", new { id = Model.BookId }))
                     {
+                        @Html.AntiForgeryToken()
                         <input type="submit" value="Zwróć" class="btn btn-warning btn-block @ViewBag.ProlongReturnButtonsDisabledAttribute" onclick="return confirmAction()" />
                     }
                 </div>

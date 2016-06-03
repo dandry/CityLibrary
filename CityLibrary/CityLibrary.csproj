@@ -176,7 +176,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Attributes\BookPrintDateRangeAttribute.cs" />
-    <Compile Include="BL\AutocompleteBookLoad.cs" />
+    <Compile Include="BL\AuthorFilter.cs" />
+    <Compile Include="BL\BookFilter.cs" />
+    <Compile Include="BL\PublisherFilter.cs" />
+    <Compile Include="BL\UserFilter.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthorsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
@@ -185,15 +188,16 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PublishersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="DAL\ILibraryUserRepository.cs" />
+    <Compile Include="DAL\GenericRepository.cs" />
+    <Compile Include="DAL\IUnitOfWork.cs" />
     <Compile Include="DAL\LibraryContext.cs" />
     <Compile Include="DAL\LibraryInitializer.cs" />
-    <Compile Include="DAL\LibraryUserRepository.cs" />
     <Compile Include="DAL\Migrations\LibraryMigrations\201606022044145_MigrateToLocalDb.cs" />
     <Compile Include="DAL\Migrations\LibraryMigrations\201606022044145_MigrateToLocalDb.Designer.cs">
       <DependentUpon>201606022044145_MigrateToLocalDb.cs</DependentUpon>
     </Compile>
     <Compile Include="DAL\Migrations\LibraryMigrations\Configuration.cs" />
+    <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -329,9 +333,9 @@
     <Content Include="Views\Books\Borrow.cshtml" />
     <Content Include="Views\Books\Create.cshtml" />
     <Content Include="Views\Books\AddCopy.cshtml" />
-    <Content Include="Views\Shared\_AddCopy_LoadAuthorBooks.cshtml" />
-    <Content Include="Views\Shared\_AddCopy_LoadAuthors.cshtml" />
-    <Content Include="Views\Shared\_AddCopy_Details.cshtml" />
+    <Content Include="Views\Books\_AddCopy_LoadAuthorBooks.cshtml" />
+    <Content Include="Views\Books\_AddCopy_LoadAuthors.cshtml" />
+    <Content Include="Views\Books\_AddCopy_Details.cshtml" />
     <Content Include="Views\Collections\Delete.cshtml" />
     <Content Include="Views\Collections\AddBook.cshtml" />
     <Content Include="Views\Collections\_LoadBook.cshtml" />
@@ -339,15 +343,15 @@
     <Content Include="Views\Collections\Edit.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Shared\_UserBookList.cshtml" />
+    <Content Include="Views\Users\_UserBookList.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Shared\_Modal.cshtml" />
     <Content Include="Views\Authors\Index.cshtml" />
     <Content Include="Views\Publishers\Details.cshtml" />
     <Content Include="Views\Shared\_AuthorPublisherList.cshtml" />
     <Content Include="Views\Publishers\Index.cshtml" />
-    <Content Include="Views\Shared\_BorrowBook.cshtml" />
-    <Content Include="Views\Shared\_BorrowBook_LoadBooks.cshtml" />
+    <Content Include="Views\Users\_BorrowBook.cshtml" />
+    <Content Include="Views\Users\_BorrowBook_LoadBooks.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
     <Content Include="Views\Users\_UserList.cshtml" />
     <Content Include="Web_ConnectionStrings.config">

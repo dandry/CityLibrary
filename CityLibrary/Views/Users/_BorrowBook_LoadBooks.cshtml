@@ -31,6 +31,7 @@ else
                     <td>
                         @using (Html.BeginForm("BorrowBook", "Users", new { id = book.BookId, userId = ViewBag.UserId }, FormMethod.Post))
                         {
+                            @Html.AntiForgeryToken()
                             <input type="submit" class="btn btn-primary btn-xs" value="Wypożycz" />
                         }
                     

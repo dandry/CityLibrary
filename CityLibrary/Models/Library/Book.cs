@@ -25,7 +25,7 @@ namespace CityLibrary.Models.Library
         public string Author { get; set; }
 
         [Required]
-        [RegularExpression(@"^[0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]{3}-[0-9]{1}$", ErrorMessage = "Number ISBN musi być podany w formacie 000-00-0000-000-0")]
+        [RegularExpression(@"^[0-9]{3}-[0-9]{2}-[0-9]{3}-[0-9]{4}-[0-9]{1}$", ErrorMessage = "Number ISBN musi być podany w formacie 000-00-000-0000-0")]
         [Remote("IsISBNAvailable", "Books", AdditionalFields = "BookId", ErrorMessage = "Number ISBN znajduje się już w bazie")]
         public string ISBN { get; set; }
 
