@@ -60,6 +60,7 @@ namespace CityLibrary.BL
                 books = db.LibraryBooks
                     .Where(b => (b.Title.Contains(_title) && b.Author.Contains(_author)))
                     .OrderBy(b => b.Title)
+                    .Take(25)
                     .ToLookup(b => b.Title);
             }
             else
@@ -67,6 +68,7 @@ namespace CityLibrary.BL
                 // user submits the form, custom search input
                 books = db.LibraryBooks
                     .Where(b => (b.Title.Contains(bookDetails) || b.Author.Contains(bookDetails)))
+                    .Take(25)
                     .ToLookup(b => b.Title);
             }
 

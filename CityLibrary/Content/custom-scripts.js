@@ -128,3 +128,25 @@ $("#myModal").on("show.bs.modal", function (e) {
         $("input[data-source-autocomplete]").each(createAutoComplete);
     });
 });
+
+
+// pagedlist navigation
+var getPage = function () {
+    var $a = $(this);
+
+    var options = {
+        url: $a.attr("href"),
+        data: $("form").serialize(),
+        type: "get"
+    };
+
+    $.ajax(options).done(function (data) {
+        var target = $a.parents("div.pagedList").attr("data-pl-target");
+        $newHtml = $(data);
+        $(target).replaceWith($newHtml);
+        $newHtml.effect("highlight");
+    });
+    return false;
+};
+
+$(".body-content").on("click", ".pagedList a", getPage);

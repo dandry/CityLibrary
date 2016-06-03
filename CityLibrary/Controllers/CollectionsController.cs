@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using CityLibrary.Models.Library;
 using System.Data.Entity;
 using CityLibrary.BL;
+using PagedList;
 
 namespace CityLibrary.Controllers
 {
@@ -17,26 +18,33 @@ namespace CityLibrary.Controllers
         LibraryContext db = new LibraryContext();
         AutocompleteBookLoad acBookLoad = new AutocompleteBookLoad();
 
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
             var collections = db.BookCollections
                 .OrderBy(bc => bc.Name)
                 .ToList();
-
+                
             if (collections == null)
             {
                 return RedirectToAction("Index");
             }
 
-            var collectionsViewModel = new List<BookCollectionViewModel>();
+            var collectionViewModelList = new List<BookCollectionViewModel>();
 
             foreach (var collection in collections)
             {
                 var bookCollectionViewModel = new BookCollectionViewModel(collection);
-                collectionsViewModel.Add(bookCollectionViewModel);
+                collectionViewModelList.Add(bookCollectionViewModel);
             }
 
-            return View(collectionsViewModel);
+            var collectionViewModelPagedList = collectionViewModelList.ToPagedList(page, 10);
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_CollectionList", collectionViewModelPagedList);
+            }
+
+            return View(collectionViewModelPagedList);
         }
 
         public ActionResult Books(int id, BookType type, string search)
@@ -179,7 +187,7 @@ namespace CityLibrary.Controllers
                     db.BookCollections.Add(collection);
                     db.SaveChanges();
 
-                    return RedirectToAction("Books", "Collections", new { id = collection.CollectionId, type = BookType.All });
+                    return RedirectToAction("Index");
                 }
 
                 return View(collection);

@@ -33,6 +33,7 @@ namespace CityLibrary.Controllers
                 books = db.LibraryBooks
                     .OrderBy(b => b.Title)
                     .ThenBy(b => b.ReturnDate)
+                    .Take(25)
                     .ToLookup(b => b.Title);
 
                 return View(books);

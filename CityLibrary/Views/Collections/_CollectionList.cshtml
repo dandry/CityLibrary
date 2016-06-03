@@ -1,0 +1,55 @@
+﻿@model IPagedList<CityLibrary.ViewModels.BookCollectionViewModel>
+
+<div id="collectionList">
+    <div class="div-blankspace">
+        <div class="row content-navigation">
+            <div class="pull-left">
+                @Html.ActionLink("Utwórz nową", "Create", null, new { @class = "btn btn-default" })
+            </div>
+            <div class="pagedList col-md-6" data-pl-target="#collectionList">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.MinimalWithItemCountText)
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-11">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-md-5">@Html.DisplayNameFor(model => model.FirstOrDefault().Name) <span class="glyphicon glyphicon-triangle-bottom"></span></th>
+                        <th>@Html.Raw("Książki:")</th>
+                        <th class="text-right">@Html.Raw("Dostępne") <span class="glyphicon glyphicon-triangle-bottom"></span></th>
+                        <th class="text-right">@Html.Raw("Wypożyczone") <span class="glyphicon glyphicon-triangle-bottom"></span></th>
+                        <th class="text-right">@Html.Raw("Wszystkie") <span class="glyphicon glyphicon-triangle-bottom"></span></th>
+                        <th class="text-right">@Html.Raw("Akcje")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var collection in Model)
+            {
+                        <tr>
+                            <td colspan="2">@Html.DisplayFor(item => collection.Name)</td>
+                            <td class="text-right">@Html.ActionLink(collection.AvailableBooks.Count.ToString(), "Books", new { id = collection.CollectionId, type = BookType.Available })</td>
+                            <td class="text-right">@Html.ActionLink(collection.BorrowedBooks.Count.ToString(), "Books", new { id = collection.CollectionId, type = BookType.Borrowed })</td>
+                            <td class="text-right">@Html.ActionLink(collection.CollectionBooks.Count.ToString(), "Books", new { id = collection.CollectionId, type = BookType.All })</td>
+                            <td class="text-right">
+                                <div class="dropdown collection-actions">
+                                    <button class="btn btn-xs btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                        Akcje
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu ">
+                                        <li>@Html.ActionLink("Dodaj książkę do kolekcji", "AddBook", new { id = collection.CollectionId })</li>
+                                        <li>@Html.ActionLink("Edytuj", "Edit", new { id = collection.CollectionId })</li>
+                                        <li>@Html.ActionLink("Usuń", "Delete", new { id = collection.CollectionId })</li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
