@@ -1,63 +1,64 @@
 ﻿@model ILookup<string, CityLibrary.Models.Library.Book>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th></th>
-            <th class="col-md-3">@Html.DisplayNameFor(model => model.First().First().Title)</th>
-            <th class="col-md-3">@Html.DisplayNameFor(model => model.First().First().Author)</th>
-            <th class="col-md-3">@Html.DisplayNameFor(model => model.First().First().Publisher)</th>
-            <th class="col-md-2">@Html.DisplayNameFor(model => model.First().First().Collection.Name)</th>
-            <th class="col-md-1">@Html.Raw("Egzemplarze")</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var group in Model)
-            {
-            <tr data-toggle="collapse" data-target="#demo@(group.First().BookId)" class="collapse-toggle">
-                <td class="text-center">
-                    <span class="glyphicon glyphicon-chevron-down"></span>
-                </td>
-                <td>@Html.DisplayFor(book => group.First().Title)</td>
-                <td>@Html.ActionLink(Html.DisplayFor(book => group.First().Author).ToString(), "Author", new { name = group.First().Author })</td>
-                <td>@Html.DisplayFor(book => group.First().Publisher)</td>
-                <td>@Html.DisplayFor(book => group.First().Collection.Name)</td>
-                <td class="text-center">@Html.DisplayFor(item => group.ToList().Count)</td>
-            </tr>
+<div id="bookList">
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td colspan="6" class="hidden-row">
-                    <div class="collapse table-div" id="demo@(group.First().BookId)">
-                        <table class="table table-condensed inner-table table-striped">
-                            <thead>
-                                <tr>
-                                    <th class="col-md-2">@Html.DisplayNameFor(item => group.First().ISBN)</th>
-                                    <th class="fixed-width">@Html.DisplayNameFor(item => group.First().YearPrinted)</th>
-                                    <th>@Html.DisplayNameFor(item => group.First().UserFullName)</th>
-                                    <th class="col-md-2">@Html.DisplayNameFor(item => group.First().BorrowDate)</th>
-                                    <th class="col-md-2">@Html.DisplayNameFor(item => group.First().ReturnDate)</th>
-                                    <th class="fixed-width">@Html.DisplayNameFor(item => group.First().DaysLeft)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in group)
-                                {
-                                    <tr>
-                                        <td>@Html.ActionLink(Html.DisplayFor(book => item.ISBN).ToString(), "Details", "Books", new { id = item.BookId }, null)</td>
-                                        <td>@Html.DisplayFor(book => item.YearPrinted)</td>
-                                        <td>@Html.DisplayFor(book => item.UserFullName)</td>
-                                        <td>@Html.DisplayFor(book => item.BorrowDate)</td>
-                                        <td>@Html.DisplayFor(book => item.ReturnDate)</td>
-                                        <td>@Html.DisplayFor(book => item.DaysLeft)</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </td>
+                <th></th>
+                <th class="col-md-3">@Html.DisplayNameFor(model => model.First().First().Title)</th>
+                <th class="col-md-3">@Html.DisplayNameFor(model => model.First().First().Author)</th>
+                <th class="col-md-3">@Html.DisplayNameFor(model => model.First().First().Publisher)</th>
+                <th class="col-md-2">@Html.DisplayNameFor(model => model.First().First().Collection.Name)</th>
+                <th class="col-md-1">@Html.Raw("Egzemplarze")</th>
             </tr>
-        }
-    </tbody>
-</table>
-
+        </thead>
+        <tbody>
+            @foreach (var group in Model)
+            {
+                <tr data-toggle="collapse" data-target="#demo@(group.First().BookId)" class="collapse-toggle">
+                    <td class="text-center">
+                        <span class="glyphicon glyphicon-chevron-down"></span>
+                    </td>
+                    <td>@Html.DisplayFor(book => group.First().Title)</td>
+                    <td>@Html.ActionLink(Html.DisplayFor(book => group.First().Author).ToString(), "Index", "Authors", new { name = group.First().Author }, null)</td>
+                    <td>@Html.DisplayFor(book => group.First().Publisher)</td>
+                    <td>@Html.DisplayFor(book => group.First().Collection.Name)</td>
+                    <td class="text-center">@Html.DisplayFor(item => group.ToList().Count)</td>
+                </tr>
+                <tr>
+                    <td colspan="6" class="hidden-row">
+                        <div class="collapse table-div" id="demo@(group.First().BookId)">
+                            <table class="table table-condensed inner-table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-2">@Html.DisplayNameFor(item => group.First().ISBN)</th>
+                                        <th class="fixed-width">@Html.DisplayNameFor(item => group.First().YearPrinted)</th>
+                                        <th>@Html.DisplayNameFor(item => group.First().UserFullName)</th>
+                                        <th class="col-md-2">@Html.DisplayNameFor(item => group.First().BorrowDate)</th>
+                                        <th class="col-md-2">@Html.DisplayNameFor(item => group.First().ReturnDate)</th>
+                                        <th class="fixed-width">@Html.DisplayNameFor(item => group.First().DaysLeft)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in group)
+                                    {
+                                        <tr>
+                                            <td>@Html.ActionLink(Html.DisplayFor(book => item.ISBN).ToString(), "Details", "Books", new { id = item.BookId }, null)</td>
+                                            <td>@Html.DisplayFor(book => item.YearPrinted)</td>
+                                            <td>@Html.DisplayFor(book => item.UserFullName)</td>
+                                            <td>@Html.DisplayFor(book => item.BorrowDate)</td>
+                                            <td>@Html.DisplayFor(book => item.ReturnDate)</td>
+                                            <td>@Html.DisplayFor(book => item.DaysLeft)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 

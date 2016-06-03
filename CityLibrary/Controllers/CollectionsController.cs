@@ -7,33 +7,44 @@ using System.Web;
 using System.Web.Mvc;
 using CityLibrary.Models.Library;
 using System.Data.Entity;
+using CityLibrary.BL;
+using PagedList;
 
 namespace CityLibrary.Controllers
 {
+    [Authorize]
     public class CollectionsController : Controller
     {
         LibraryContext db = new LibraryContext();
+        AutocompleteBookLoad acBookLoad = new AutocompleteBookLoad();
 
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
             var collections = db.BookCollections
                 .OrderBy(bc => bc.Name)
                 .ToList();
-
+                
             if (collections == null)
             {
                 return RedirectToAction("Index");
             }
 
-            var collectionsViewModel = new List<BookCollectionViewModel>();
+            var collectionViewModelList = new List<BookCollectionViewModel>();
 
             foreach (var collection in collections)
             {
                 var bookCollectionViewModel = new BookCollectionViewModel(collection);
-                collectionsViewModel.Add(bookCollectionViewModel);
+                collectionViewModelList.Add(bookCollectionViewModel);
             }
 
-            return View(collectionsViewModel);
+            var collectionViewModelPagedList = collectionViewModelList.ToPagedList(page, 10);
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_CollectionList", collectionViewModelPagedList);
+            }
+
+            return View(collectionViewModelPagedList);
         }
 
         public ActionResult Books(int id, BookType type, string search)
@@ -117,69 +128,21 @@ namespace CityLibrary.Controllers
             return View(collection);
         }
 
-        public JsonResult Autocomplete(string term)
+        [HttpPost]
+        public ActionResult LoadBook(int id, string bookDetails, bool autoCompleteSource)
         {
+            IEnumerable<Book> books = acBookLoad.FilterBooksToList(db, bookDetails, autoCompleteSource);
 
-            var result = db.LibraryBooks
-                .Where(b => b.Title.Contains(term))
-                .GroupBy(b => b.Title)
-                .Select(b => b.FirstOrDefault())
-                .Take(10)
-                .Select(b => new
-                {
-                    value = b.Title + " | " + b.Author
-                });
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult LoadBook(int id, string bookDetails)
-        {
-
-            // 'bookDetails' parameter format received by jQuery autocomplete: "BookTitle | BookAuthor" 
-
-            var bookDetailsArray = bookDetails.Split(new string[] { " | " }, StringSplitOptions.None);
-            // if a normal string (w/o autocomplete) has been passed, the array contains only one element (no split occured)
-
-            Book book;
-
-            if (bookDetailsArray.Count() == 1)
+            if (books == null)
             {
-                // custom search string passed
-                var books = db.LibraryBooks
-                    .Where(b => (b.Title.Contains(bookDetails)) || b.Author.Contains(bookDetails))
-                    .GroupBy(b => b.Title)
-                    .Select(b => b.FirstOrDefault())
-                    .ToList();
-
-                // there are more than one entry to display, so search string is not specific enough
-                if (books.Count > 1)
-                {
-                    return new EmptyResult();
-                }
-
-                book = books.FirstOrDefault();
-            }
-            else
-            {
-                // jQuery autocomplete format passed
-                var title = bookDetailsArray[0];
-                var author = bookDetailsArray[1];
-
-                book = db.LibraryBooks
-                    .Where(b => (b.Title.Contains(title)) && b.Author.Contains(author))
-                    .FirstOrDefault();
-            }
-
-            if (book == null)
-            {
-                return RedirectToAction("Index");
+                return new EmptyResult();
             }
 
             ViewBag.CollectionId = id;
-
-            return PartialView("_LoadBook", book);
+            return PartialView("_LoadBook", books);
         }
+
+
 
         [HttpPost]
         public ActionResult AddCopy(int id, string title, string author)
@@ -224,7 +187,7 @@ namespace CityLibrary.Controllers
                     db.BookCollections.Add(collection);
                     db.SaveChanges();
 
-                    return RedirectToAction("Books", "Collections", new { id = collection.CollectionId, type = BookType.All });
+                    return RedirectToAction("Index");
                 }
 
                 return View(collection);

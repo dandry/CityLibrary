@@ -17,13 +17,15 @@
     HttpMethod = "POST",
     InsertionMode = InsertionMode.Replace,
     UpdateTargetId = "bookDetailsPlaceHolder",
-    OnComplete = "animateBookLoad"
+    OnComplete = "animateContentLoad(bookDetailsPlaceHolder);"
 }))
 {
+    @Html.Hidden("autocompletesource", false)
+
     <div class="form-horizontal">
         <div class="form-group form-custom">
             <div class="col-md-12">
-                @Html.TextBox("bookDetails", null, new { @class = "form-control pull-left", @placeholder = "Szukaj tytułu", data_source_autocomplete = Url.Action("Autocomplete") })
+                @Html.TextBox("bookDetails", null, new { @class = "form-control pull-left", @placeholder = "Szukaj tytułu", data_source_autocomplete = Url.Action("Autocomplete", "Books") })
                 <span class="input-group-btn">
                     <button id="addCopySearchBtn" class="btn btn-default" type="submit">
                         <span class="glyphicon glyphicon-search"></span>
@@ -36,4 +38,3 @@
 
 <div id="bookDetailsPlaceHolder" style="display:none">
 </div>
-

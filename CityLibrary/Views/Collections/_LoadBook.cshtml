@@ -1,43 +1,52 @@
-﻿@model CityLibrary.Models.Library.Book
+﻿@model IEnumerable<CityLibrary.Models.Library.Book>
 
-
+<hr />
 <div class="container">
-    <hr />
-    <div class="row">
-        <div class="col-md-5">
-            <dl class="dl-horizontal custom-details-dl">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Title)
-                </dt>
+    @foreach (var book in Model)
+    {
+        <div class="row">
+            <div class="@(book.Equals(Model.First()) ? "" : "top-border") col-md-8">
+                <div class="col-md-8">
+                    <dl class="dl-horizontal custom-details-dl">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Title)
-                </dd>
+                        <dd>
+                            @Html.DisplayFor(model => book.Title)
+                        </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Author)
-                </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Author)
+                        </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Author)
-                </dd>
+                        <dd>
+                            @Html.DisplayFor(model => book.Author)
+                        </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Publisher)
-                </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Collection.Name)
+                        </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Publisher)
-                </dd>
-            </dl>    
-        </div>
-        @using (Html.BeginForm("AddCopy", "Collections", new { id = ViewBag.CollectionId, title = Model.Title, author = Model.Author }))
-        {
-            <div class="col-md-2">
-                <input type="submit" class="btn btn-success btn-block" value="Dodaj do kolekcji"/>
+                        <dd>
+                            @Html.DisplayFor(model => book.Collection.Name)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Publisher)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => book.Publisher)
+                        </dd>
+                    </dl>
+                </div>
+                @using (Html.BeginForm("AddCopy", "Collections", new { id = ViewBag.CollectionId, title = book.Title, author = book.Author }))
+                {
+                    <div class="col-md-3">
+                        <input type="submit" class="btn btn-success btn-block" value="Dodaj do kolekcji" />
+                    </div>
+                }
             </div>
-        }
-  
-    </div>
-    
+        </div>
+    }  
 </div>

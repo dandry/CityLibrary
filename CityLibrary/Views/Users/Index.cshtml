@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<CityLibrary.Models.Library.LibraryUser>
 
+@section Styles {
+    @Styles.Render("~/Content/themes/base/all.css")
+}
+
 @{
     ViewBag.Title = "Użytkownicy";
 }
@@ -7,69 +11,39 @@
 <h2>Użytkownicy</h2>
 
 <hr />
+<div class="div-blankspace">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="pull-left">
+                    @Html.ActionLink("Dodaj użytkownika", "Create", null, new { @class = "btn btn-default" })
+                </div>
+                <div class="vertical-separator pull-left"></div>
+                @using (Ajax.BeginForm(new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "userList",
+                    OnSuccess = "animateListContentLoad(userList)"
+                }))
+                {
+                    @Html.Hidden("autocompletesource", false)
 
-<table class="table table-striped">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PESEL)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayName("Książki")
-        </th>
-        <th>
-            Akcje
-        </th>
-    </tr>
+                    <div class="input-group">
+                        @Html.TextBox("userName", null, new { @class = "form-control form-control-fixed-width", @placeholder = "Filtruj użytkownika...", data_source_autocomplete = Url.Action("Autocomplete") })
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                }
 
-@foreach (var user in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink(Html.DisplayFor(modelItem => user.LastName).ToString(), "Details", new { id = user.UserId })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => user.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => user.PESEL)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => user.DateOfBirth)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => user.Email)
-        </td>
-        <td>
-            <a href="@Url.Action("LoadUserBooks", new { id = user.UserId })" role="button" class="btn btn-default btn-xs" data-tooltip="tooltip" title="Wypożyczone/zwrócone" data-toggle="modal" data-target="#myModal">
-                @Html.DisplayFor(modelItem => user.BorrowedBooks.Count) / 5 @*5 is a test value, not yet implemented*@
-            </a>
-        </td>
-        <td class="col-md-1">
-            <div class="dropdown collection-actions">
-                <button class="btn btn-xs btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                    Akcje
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu ">
-                    <li>@Html.ActionLink("Szczegóły", "Details", new { id = user.UserId })</li>
-                    <li>@Html.ActionLink("Edytuj", "Edit", new { id = user.UserId })</li>
-                </ul>
             </div>
-        </td>
-    </tr>
-}
+        </div>
+    </div>
+</div>
 
-</table>
+@Html.Partial("_UserList", Model)
 
 @Html.Partial("_Modal")

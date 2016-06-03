@@ -66,11 +66,10 @@ D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\bin\Microsoft.Owin.Securi
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.dll
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.pdb
-D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.DAL.Migrations.LibraryMigrations.InitialCreate.resources
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.DAL.Migrations.LibraryMigrations.MigrateToLocalDb.resources
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.csproj.GenerateResource.Cache
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\bin\PagedList.dll
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\bin\PagedList.Mvc.dll
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\bin\PagedList.xml
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\bin\PagedList.Mvc.xml
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.csprojResolveAssemblyReference.cache
-D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.DAL.Migrations.LibraryMigrations.Update4.resources
-D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.DAL.Migrations.LibraryMigrations.Update5.resources
-D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.DAL.Migrations.LibraryMigrations.Update6.resources
-D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.DAL.Migrations.LibraryMigrations.Update7.resources
-D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary\obj\Debug\CityLibrary.DAL.Migrations.LibraryMigrations.Update8.resources

@@ -53,3 +53,5 @@ D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\bin\Debug\Microsoft
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\obj\Debug\CityLibrary.Tests.csprojResolveAssemblyReference.cache
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\obj\Debug\CityLibrary.Tests.dll
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\obj\Debug\CityLibrary.Tests.pdb
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\bin\Debug\PagedList.dll
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\bin\Debug\PagedList.xml

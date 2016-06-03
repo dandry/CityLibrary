@@ -1,4 +1,5 @@
-﻿using CityLibrary.DAL;
+﻿using CityLibrary.BL;
+using CityLibrary.DAL;
 using CityLibrary.Models.Library;
 using CityLibrary.ViewModels;
 using System;
@@ -11,32 +12,47 @@ using System.Web.Mvc;
 
 namespace CityLibrary.Controllers
 {
+    [Authorize]
     public class BooksController : Controller
     {
         LibraryContext db = new LibraryContext();
+        AutocompleteBookLoad acBookLoad = new AutocompleteBookLoad();
 
-        // Default, complete list of books
-        public ActionResult Index(string searchString)
+        public ActionResult Index(string bookTitle, bool autocompleteSource = false)
         {
-            if (searchString == null)
-            {
-                var queriedBooks = db.LibraryBooks
-                .OrderBy(b => b.Title)
-                .ThenBy(b => b.ReturnDate)
-                .ToLookup(b => b.Title);
+            ILookup<string, Book> books;
 
-                return View(queriedBooks);
+            if (Request.IsAjaxRequest())
+            {
+                books = acBookLoad.FilterBooksToLookup(db, bookTitle, autocompleteSource);
+
+                return PartialView("_BookList", books);
             }
             else
             {
-                var queriedBooks = db.LibraryBooks
-                .Where(b => b.Title.Contains(searchString))
-                .OrderBy(b => b.Title)
-                .ThenBy(b => b.ReturnDate)
-                .ToLookup(b => b.Title);
+                books = db.LibraryBooks
+                    .OrderBy(b => b.Title)
+                    .ThenBy(b => b.ReturnDate)
+                    .Take(25)
+                    .ToLookup(b => b.Title);
 
-                return View(queriedBooks);
-            } 
+                return View(books);
+            }
+        }
+
+        public JsonResult Autocomplete(string term)
+        {
+            var result = db.LibraryBooks
+                .Where(b => b.Title.Contains(term))
+                .GroupBy(b => b.Title)
+                .Select(b => b.FirstOrDefault())
+                .Take(10)
+                .Select(b => new
+                {
+                    value = b.Title + " | " + b.Author
+                });
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AddCopy()
@@ -102,20 +118,27 @@ namespace CityLibrary.Controllers
             return PartialView("_AddCopy_Details", book);
         }
 
-        public ActionResult Author(string name)
+        public ActionResult Authors(string name)
         {
             if (name == null)
             {
-                return RedirectToAction("Index");
+                var queriedBooks = db.LibraryBooks
+                    .OrderBy(b => b.Author)
+                    .ToLookup(b => b.Title);
+
+                return View(queriedBooks);
             }
+            else
+            {
+                var queriedBooks = db.LibraryBooks
+                    .Where(b => b.Author.Contains(name))
+                    .OrderBy(b => b.Title)
+                    .ToLookup(b => b.Title);
 
-            var queriedBooks = db.LibraryBooks
-                .Where(b => b.Author.Contains(name))
-                .ToLookup(b => b.Title);
+                ViewBag.AuthorName = name;
 
-            ViewBag.AuthorName = name;
-
-            return View(queriedBooks);
+                return View(queriedBooks);
+            }
         }
 
         public ActionResult Details(int id)
@@ -296,6 +319,18 @@ namespace CityLibrary.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult Prolong(int id)
+        {
+            var book = db.LibraryBooks.Find(id);
+            book.ReturnDate = DateTime.Now.AddMonths(1).AddDays(-1);
+
+            db.Entry(book).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Details", new { id = book.BookId });
+        }
+
         // This remote validation check whether there is an entity with given ISBN already in the database. To prevent this method 
         // from firing in Edit action (obviously the ISBN would then exist), BookId is passed along. Create and AddCopy actions 
         //have it them set to 0, but an Edit action has actually the Id.
@@ -324,6 +359,5 @@ namespace CityLibrary.Controllers
             }
             base.Dispose(disposing);
         }
-
     }
 }

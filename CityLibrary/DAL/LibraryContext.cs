@@ -13,7 +13,7 @@ namespace CityLibrary.DAL
         public DbSet<BookCollection> BookCollections { get; set; }
         public DbSet<Book> LibraryBooks { get; set; }
 
-        public LibraryContext()
+        public LibraryContext() : base("LocalDB")
         {
             //Database.SetInitializer<LibraryContext>(new LibraryInitializer());
         }

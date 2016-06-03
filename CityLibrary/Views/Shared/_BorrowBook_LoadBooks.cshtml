@@ -1,0 +1,45 @@
+﻿@model IEnumerable<CityLibrary.Models.Library.Book>
+
+<hr />
+
+@if (Model.Count() == 0)
+{
+    <p>Brak elementów do wyświetlenia.</p>
+}
+else
+{
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Title)</th>
+                <th>@Html.DisplayNameFor(model => model.Author)</th>
+                <th>@Html.DisplayNameFor(model => model.ISBN)</th>
+                <th>@Html.DisplayNameFor(model => model.YearPrinted)</th>
+                <th>@Html.DisplayNameFor(model => model.Publisher)</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => book.Title)</td>
+                    <td>@Html.DisplayFor(model => book.Author)</td>
+                    <td>@Html.DisplayFor(model => book.ISBN)</td>
+                    <td>@Html.DisplayFor(model => book.YearPrinted)</td>
+                    <td>@Html.DisplayFor(model => book.Publisher)</td>
+                    <td>
+                        @using (Html.BeginForm("BorrowBook", "Users", new { id = book.BookId, userId = ViewBag.UserId }, FormMethod.Post))
+                        {
+                            <input type="submit" class="btn btn-primary btn-xs" value="Wypożycz" />
+                        }
+                    
+                    </td>
+                </tr>
+            }
+            
+        </tbody>
+    </table>
+}
+
+

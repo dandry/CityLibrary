@@ -216,3 +216,17 @@ div.margin-separator {
     margin-bottom: 0px;
 }
 
+div.top-border {
+    border-top: 1px solid #8c8c8c;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+ul.pagination {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+div.content-navigation {
+    padding: 0px 15px;
+}

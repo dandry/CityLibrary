@@ -1,7 +1,7 @@
 ﻿@model ILookup<string, CityLibrary.Models.Library.Book>
 
-@{
-    ViewBag.Title = "Author";
+@{ 
+    ViewBag.Title = "Książki autora " + ViewBag.AuthorName;   
 }
 
 <h2>Książki autora <i>@ViewBag.AuthorName</i></h2>

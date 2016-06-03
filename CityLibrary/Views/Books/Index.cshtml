@@ -1,5 +1,9 @@
 ﻿@model ILookup<string, CityLibrary.Models.Library.Book>
 
+@section Styles {
+    @Styles.Render("~/Content/themes/base/all.css")
+}
+
 @{
     ViewBag.Title = "Wszystkie książki";
 }
@@ -17,10 +21,18 @@
                     @Html.ActionLink("Dodaj egzemplarz", "AddCopy", null, new { @class = "btn btn-default" })
                 </div>
                 <div class="vertical-separator pull-left"></div>
-                @using (Html.BeginForm("Index", "Books", FormMethod.Get))
+                @using (Ajax.BeginForm(new AjaxOptions
                 {
+                    HttpMethod = "GET",
+                    InsertionMode = InsertionMode.Replace,
+                    UpdateTargetId = "bookList",
+                    OnSuccess = "animateListContentLoad(bookList)"
+                }))
+                {
+                    @Html.Hidden("autocompletesource", false)
+
                     <div class="input-group">
-                        @Html.TextBox("SearchString", null, new { @class = "form-control form-control-fixed-width", @placeholder = "Filtruj książkę.." })
+                        @Html.TextBox("bookTitle", null, new { @class = "form-control form-control-fixed-width", @placeholder = "Filtruj książkę...", data_source_autocomplete = Url.Action("Autocomplete") })
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
@@ -32,10 +44,6 @@
             </div>
         </div>
     </div>
-
 </div>
-
-
-
 
 @Html.Partial("_BookList", Model)
