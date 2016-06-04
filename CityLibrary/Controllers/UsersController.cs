@@ -7,8 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CityLibrary.DAL;
-using CityLibrary.Models.Library;
 using CityLibrary.BL;
+using CityLibrary.DAL.Models;
 
 namespace CityLibrary.Controllers
 {
@@ -19,7 +19,7 @@ namespace CityLibrary.Controllers
         BookFilter bf;
         UserFilter uf;
 
-        public UsersController() : this (new UnitOfWork())
+        public UsersController() : this(new UnitOfWork())
         {
         }
 
@@ -30,20 +30,20 @@ namespace CityLibrary.Controllers
             uf = new UserFilter(uow);
         }
 
-
         public ActionResult Index(string userName, bool autocompleteSource = false)
         {
             IEnumerable<LibraryUser> userList;
 
             if (Request.IsAjaxRequest())
             {
-                userList = uf.FilterByName(userName, autocompleteSource);
+                userList = uf.FilterByName(userName, autocompleteSource).Take(50);
                 
                 return PartialView("_UserList", userList);
             }
 
             userList = uow.LibraryUserRepository.Get(orderBy:
-                q => q.OrderBy(u => u.LastName));
+                q => q.OrderBy(u => u.LastName))
+                .Take(25);
 
             return View(userList);
         }
@@ -76,9 +76,9 @@ namespace CityLibrary.Controllers
             return PartialView("_BorrowBook", user);
         }
 
-        public PartialViewResult BorrowBook_LoadBooks(int id, string bookDetails)
+        public PartialViewResult BorrowBook_LoadBooks(int id, string bookDetails, bool autocompleteSource = false)
         {
-            var books = bf.FilterByType(BookType.Available, bookDetails);
+            var books = bf.FilterByType(BookType.Available, bookDetails, autocompleteSource);
 
             ViewBag.UserId = id;
 
@@ -177,6 +177,22 @@ namespace CityLibrary.Controllers
                 result = bf.Autocomplete(term);
             }
             
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult IsPeselAvailable(long pesel, int? userId)
+        {
+            var result = false;
+
+            if (userId != null)
+            {
+                result = true;
+            }
+            else
+            {
+                result = uow.LibraryUserRepository.Get(filter:
+                    u => u.PESEL.Equals(pesel)).Count() == 0 ? true : false;
+            }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

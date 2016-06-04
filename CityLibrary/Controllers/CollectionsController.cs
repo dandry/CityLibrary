@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using CityLibrary.Models.Library;
+using CityLibrary.DAL.Models;
 using System.Data.Entity;
 using CityLibrary.BL;
 using PagedList;
@@ -106,8 +106,7 @@ namespace CityLibrary.Controllers
         public ActionResult AddCopy(int id, string title, string author)
         {
             var books = uow.BookRepository.Get(filter:
-                b => b.CollectionId.Equals(id)
-                && b.Title.Contains(title)
+                b => b.Title.Contains(title)
                 && b.Author.Contains(author));
 
             var collection = uow.BookCollectionRepository.GetById(id);
@@ -222,6 +221,22 @@ namespace CityLibrary.Controllers
             uow.Save();
 
             return RedirectToAction("Index");
+        }
+
+        public JsonResult IsNameAvailable(string name, int? collectionId)
+        {
+            var result = false;
+
+            if (collectionId != null)
+            {
+                result = true;
+            }
+            else
+            {
+                result = uow.BookCollectionRepository.Get(filter:
+                    c => c.Name.Equals(name)).Count() == 0 ? true : false;
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

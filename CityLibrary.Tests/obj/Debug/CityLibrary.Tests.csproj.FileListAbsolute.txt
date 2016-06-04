@@ -50,8 +50,12 @@ D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\bin\Debug\Microsoft
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\bin\Debug\EntityFramework.xml
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
-D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\obj\Debug\CityLibrary.Tests.csprojResolveAssemblyReference.cache
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\obj\Debug\CityLibrary.Tests.dll
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\obj\Debug\CityLibrary.Tests.pdb
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\bin\Debug\PagedList.dll
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\bin\Debug\PagedList.xml
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\bin\Debug\CityLibrary.DAL.dll
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\bin\Debug\CityLibrary.BL.dll
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\bin\Debug\CityLibrary.DAL.pdb
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\bin\Debug\CityLibrary.BL.pdb
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.Tests\obj\Debug\CityLibrary.Tests.csprojResolveAssemblyReference.cache

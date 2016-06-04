@@ -1,4 +1,4 @@
-﻿using CityLibrary.Models.Library;
+﻿using CityLibrary.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,7 +28,7 @@ namespace CityLibrary.ViewModels
         {
             get
             {
-                return CollectionBooks.Where(b => b.UserId == null).ToList();
+                return CollectionBooks.Where(b => b.UserId.Equals(null)).ToList();
             }
         }
 

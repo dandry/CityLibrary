@@ -1,5 +1,10 @@
 ﻿@model CityLibrary.ViewModels.BookBorrowViewModel
 
+
+@section Styles {
+    @Styles.Render("~/Content/select2/select2.css")
+}
+
 @{
     ViewBag.Title = "Wypożycz książkę - " + @Model.Book.Title + ", " + Model.Book.Author ;
 }
@@ -32,7 +37,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.SelectedListUserId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.SelectedListUserId, Model.UserList, "-- Wybierz użytkownika --", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.SelectedListUserId, Model.UserList, "-- Wybierz użytkownika --", htmlAttributes: new { @class = "form-control", @id = "userBorrowDropDown" })
                 @Html.ValidationMessageFor(model => model.SelectedListUserId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -63,4 +68,15 @@
     </div>
 }
 
+@section Scripts {
+    @Scripts.Render("~/Scripts/select2.min.js")   
     
+    <script>
+        // select2 for boostrap
+        $(document).ready(function () {
+            $("#userBorrowDropDown").select2({
+                theme: "default"
+            });
+        });
+    </script> 
+}

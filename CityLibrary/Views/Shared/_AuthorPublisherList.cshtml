@@ -15,7 +15,7 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@Html.ActionLink(Html.DisplayFor(model => item.Name).ToString(), "Details", new { name = item.Name })</td>
+                            <td>@Html.ActionLink(@item.Name, "Details", new { name = item.Name })</td>
                             <td>@Html.DisplayFor(model => item.BookCount)</td>
                             <td>@Html.DisplayFor(model => item.CopyCount)</td>
                         </tr>

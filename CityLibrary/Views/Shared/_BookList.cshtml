@@ -1,4 +1,4 @@
-﻿@model ILookup<string, CityLibrary.Models.Library.Book>
+﻿@model ILookup<string, Book>
 
 <div id="bookList">
     <table class="table table-striped">
@@ -20,7 +20,7 @@
                         <span class="glyphicon glyphicon-chevron-down"></span>
                     </td>
                     <td>@Html.DisplayFor(book => group.First().Title)</td>
-                    <td>@Html.ActionLink(Html.DisplayFor(book => group.First().Author).ToString(), "Index", "Authors", new { name = group.First().Author }, null)</td>
+                    <td>@Html.ActionLink(group.First().Author, "Index", "Authors", new { name = group.First().Author }, null)</td>
                     <td>@Html.DisplayFor(book => group.First().Publisher)</td>
                     <td>@Html.DisplayFor(book => group.First().Collection.Name)</td>
                     <td class="text-center">@Html.DisplayFor(item => group.ToList().Count)</td>
@@ -43,7 +43,7 @@
                                     @foreach (var item in group)
                                     {
                                         <tr>
-                                            <td>@Html.ActionLink(Html.DisplayFor(book => item.ISBN).ToString(), "Details", "Books", new { id = item.BookId }, null)</td>
+                                            <td>@Html.ActionLink(item.ISBN, "Details", "Books", new { id = item.BookId }, null)</td>
                                             <td>@Html.DisplayFor(book => item.YearPrinted)</td>
                                             <td>@Html.DisplayFor(book => item.UserFullName)</td>
                                             <td>@Html.DisplayFor(book => item.BorrowDate)</td>

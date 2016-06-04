@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CityLibrary.Models.Library.LibraryUser>
+﻿@model IEnumerable<LibraryUser>
 
 <div id="userList">
     <table class="table table-striped">
@@ -38,7 +38,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.ActionLink(Html.DisplayFor(modelItem => user.LastName).ToString(), "Details", new { id = user.UserId })
+                            @Html.ActionLink(@user.LastName, "Details", new { id = user.UserId })
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => user.FirstName)
@@ -54,7 +54,7 @@
                         </td>
                         <td>
                             <a href="@Url.Action("LoadUserBooks", new { id = user.UserId })" role="button" class="btn btn-default btn-xs" data-tooltip="tooltip" title="Wypożyczone/zwrócone" data-toggle="modal" data-target="#myModal">
-                                @Html.DisplayFor(modelItem => user.BorrowedBooks.Count) / 5 @*5 is a test value, not yet implemented*@
+                                @Html.DisplayFor(modelItem => user.BorrowedBooks.Count) / # @*5 is a test value, not yet implemented*@
                             </a>
                         </td>
                         <td class="col-md-1">

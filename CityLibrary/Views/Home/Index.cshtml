@@ -1,31 +1,50 @@
-﻿@{
+﻿@section Styles {
+    @Styles.Render("~/Content/fontello.css")  
+}
+
+@{
     ViewBag.Title = "Strona główna";
 }
 
 <div class="jumbotron">
     <h1>Biblioteka Kukuryki</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <p class="lead">A small ASP.NET MVC sample application for managing a local book library.</p>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
+    <div class="col-md-3 text-justify">
+        <h2>Purposes</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            The purpose of this project is to create a working and maintainable web application, which may be used to help manage real resources. 
         </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <div class="col-md-3 text-justify">
+        <h2>Technology used</h2>
+        <p>
+            <ul style="list-style-type:square">
+                <li>ASP.NET MVC</li>
+                <li>Entity Framework</li>
+                <li>Bootstrap</li>
+                <li>jQuery</li>
+                <li>AJAX</li>
+            </ul>
+        </p>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-md-3 text-justify">
+        <h2>Knowledge source</h2>
+        <p>Sources which particularly helped me create this project:</p>
+        <p>
+        <a href="http://app.pluralsight.com/author/scott-allen">Scott Allen's courses at Pluralsight.com</a><br />
+        <a href="https://www.asp.net/mvc">ASP.NET MVC Guidance</a><br />
+        <a href="https://mva.microsoft.com/en-US/training-courses/introduction-to-aspnet-mvc-8322">Microsoft Virtual Academy</a><br />
+        <a href="https://stackoverflow.com/users/3367983/dandry">Stackoverflow</a><br />   
+        </p>
+    </div>
+    <div class="col-md-3 text-justify">
+        <h2>Contact</h2>
+        <p><i>To see application's functionality, logging in is required. Please contact for login credentials.</i></p>
+        <a href="mailto:daniel.andraszewski@gmail.com" class="btn btn-default btn-xs"><i class="icon-mail"></i></a>
+        <a href="https://github.com/Dandry/" class="btn btn-default btn-xs"><i class="icon-github-circled"></i></a>
+        <a href="https://www.facebook.com/d.andraszewski" class="btn btn-default btn-xs"><i class="icon-facebook-official"></i></a>
     </div>
 </div>

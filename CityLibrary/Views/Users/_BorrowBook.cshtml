@@ -1,8 +1,8 @@
-﻿@model CityLibrary.Models.Library.LibraryUser
+﻿@model LibraryUser
 
 <div class="modal-header">
-    <h3 class="modal-title">Historia wypożyczeń</h3>
-    <h4>Nazwa</h4>
+    <h3 class="modal-title">Wypożycz książkę</h3>
+    <h4>@Model.FullName</h4>
 </div>
 <div class="modal-body">
     <div class="content">
@@ -14,6 +14,8 @@
             OnComplete = "animateContentLoad(bookDetailsPlaceHolder)"
         }))
         {
+            @Html.Hidden("autocompletesource", false);
+
             <div class="form-horizontal">
                 <div class="form-group form-custom">
                     <div class="col-md-12">

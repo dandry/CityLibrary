@@ -1,4 +1,4 @@
-﻿using CityLibrary.Models.Library;
+﻿using CityLibrary.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

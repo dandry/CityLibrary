@@ -114,9 +114,9 @@
     <None Include="Scripts\jquery-1.9.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CityLibrary\CityLibrary.csproj">
+    <ProjectReference Include="..\CityLibrary\CityLibrary.WebUI.csproj">
       <Project>{1FCA461F-9DEB-4BE7-B659-F97FF6DD4006}</Project>
-      <Name>CityLibrary</Name>
+      <Name>CityLibrary.WebUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
