@@ -81,11 +81,11 @@
     <Compile Include="GenericRepository.cs" />
     <Compile Include="LibraryContext.cs" />
     <Compile Include="LibraryInitializer.cs" />
-    <Compile Include="Migrations\LibraryMigrations\201606022044145_MigrateToLocalDb.cs" />
-    <Compile Include="Migrations\LibraryMigrations\201606022044145_MigrateToLocalDb.Designer.cs">
-      <DependentUpon>201606022044145_MigrateToLocalDb.cs</DependentUpon>
+    <Compile Include="Migrations\201606042023304_WebDeploy.cs" />
+    <Compile Include="Migrations\201606042023304_WebDeploy.Designer.cs">
+      <DependentUpon>201606042023304_WebDeploy.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\LibraryMigrations\Configuration.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BookCollection.cs" />
     <Compile Include="Models\BookType.cs" />
@@ -93,13 +93,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\LibraryMigrations\201606022044145_MigrateToLocalDb.resx">
-      <DependentUpon>201606022044145_MigrateToLocalDb.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201606042023304_WebDeploy.resx">
+      <DependentUpon>201606042023304_WebDeploy.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

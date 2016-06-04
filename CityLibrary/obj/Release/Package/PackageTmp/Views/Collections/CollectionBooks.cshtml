@@ -1,0 +1,54 @@
+﻿@model ILookup<string, Book>
+
+<h2>Kolekcja <i>@ViewBag.CollectionName</i></h2>
+
+
+@if (ViewBag.BookType == BookType.Available)
+{
+    ViewBag.Title = "Dostępne książki";
+    <h4>Dostępne książki</h4>
+}
+else if (ViewBag.BookType == BookType.Available)
+{
+    ViewBag.Title = "Wypożyczone książki";
+    <h4>Wypożyczone książki</h4>
+}
+else
+{
+    ViewBag.Title = "Wszystkie książki";
+    <h4>Wszystkie książki</h4>
+}
+
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="pull-left">
+            @Html.ActionLink("Dodaj książkę do kolekcji", "AddBook", new { id = ViewBag.CollectionId, @type = ViewBag.BookType }, new { @class = "btn btn-default"})
+        </div>
+        <div>
+            @using (Html.BeginForm("Books", "Collections", new { @type = "available" }, FormMethod.Get, null))
+            {
+                <div class="input-group col-md-4">
+                    @Html.TextBox("search", null, new { @class = "form-control form-control-fixed-width", @placeholder = "Filtruj książkę..." })
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            }
+        </div>
+        
+    </div>
+</div>
+
+@if (Model.Count() != 0)
+{
+    @Html.Partial("_BookList", Model)
+}
+else
+{
+    <hr />
+    <span>Brak książek do wyświetlenia.</span>
+}

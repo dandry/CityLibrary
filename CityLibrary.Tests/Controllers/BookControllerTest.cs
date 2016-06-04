@@ -15,15 +15,7 @@ namespace CityLibrary.Tests.Controllers
         [TestMethod]
         public void TestIndexBookLoad()
         {
-            // arrange
-            var controller = new BooksController();
-
-            // act
-            ViewResult result = controller.Index(null) as ViewResult;
-
-            // assert
-
-            Assert.IsTrue(true);
+            //TODO: learn how to and write unit tests!
         }
     }
 }

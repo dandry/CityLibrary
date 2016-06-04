@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="biblioteka-kukuryki" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\Visual\ Studio\ 2015\\Projects\\CityLibrary\\CityLibrary\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^D:\\Visual\ Studio\ 2015\\Projects\\CityLibrary\\CityLibrary\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+</parameters>

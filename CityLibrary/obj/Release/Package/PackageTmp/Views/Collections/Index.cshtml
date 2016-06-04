@@ -1,0 +1,14 @@
+﻿@model IPagedList<CityLibrary.ViewModels.BookCollectionViewModel>
+
+@{
+    ViewBag.Title = "Kolekcje książek";
+}
+
+<h2>Kolekcje książek</h2>
+
+<hr />
+
+@Html.Partial("_CollectionList", Model)
+
+
+

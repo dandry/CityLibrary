@@ -1,0 +1,33 @@
+﻿
+
+@{
+    ViewBag.Title = "Dodaj egzemplarz książki";
+}
+
+<h2>Dodaj egzemplarz książki</h2>
+
+<hr />
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Filtr", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("addCopySearchBox", null, new { @class = "form-control pull-left", @placeholder = "Szukaj autora" })
+                <span class="input-group-btn">
+                    <button id="addCopySearchBtn" class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+
+        <div id="authorsPlaceHolder" style="display:none;"></div>
+        <div id="authorBooksPlaceHolder" style="display:none;"></div>
+        <div id="bookDetailsPlaceHolder" style="display:none"></div>
+        <div class="vertical-separator"></div>
+    </div>
+
+
+
+
+

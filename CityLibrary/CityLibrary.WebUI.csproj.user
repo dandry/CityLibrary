@@ -12,6 +12,7 @@
     <WebStackScaffolding_DbContextTypeFullName>CityLibrary.DAL.LibraryContext</WebStackScaffolding_DbContextTypeFullName>
     <ProjectView>ShowAllFiles</ProjectView>
     <WebStackScaffolding_IsViewGenerationSelected>False</WebStackScaffolding_IsViewGenerationSelected>
+    <NameOfLastUsedPublishProfile>biblioteka-kukuryki</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

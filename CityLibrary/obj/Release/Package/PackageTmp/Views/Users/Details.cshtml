@@ -1,0 +1,98 @@
+﻿@model LibraryUser
+
+@{
+    ViewBag.Title = "Szczegóły użytkownika";
+}
+
+<h2>Szczegóły użytkownika</h2>
+
+<div>
+    <h4><i>@Model.FullName</i></h4>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <dl class="dl-horizontal custom-details-dl">
+                <dt>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.PESEL)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.PESEL)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.DateOfBirth)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateOfBirth)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.RegistrationDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.RegistrationDate)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Street)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Street)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ApartmentNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ApartmentNumber)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.City)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.City)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-md-2 details-actions">
+            <div>
+                <a href="@Url.Action("LoadUserBooks", new { id = Model.UserId })" role="button" class="btn btn-default btn-block" data-toggle="modal" data-target="#myModal">Wypożyczenia</a>
+</div>
+            <div>
+                @Html.ActionLink("Edytuj", "Edit", new { id = Model.UserId }, new { @class = "btn btn-primary btn-block" })
+            </div>
+
+            @using (Html.BeginForm("Delete", "Users", new { id = Model.UserId }))
+            {
+                @Html.AntiForgeryToken()
+                <div>
+                    <button type="submit" class="btn btn-danger btn-block" onclick="return confirmDelete()">Usuń</button>
+                </div>
+            }
+
+            <div class="div-blankspace"></div>
+            <a href="@Url.Action("Index")" type="button" class="btn btn-default btn-block">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Wróć
+            </a>
+        </div>
+    </div>
+    
+</div>
+
+@Html.Partial("_Modal")
