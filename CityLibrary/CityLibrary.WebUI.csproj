@@ -401,6 +401,7 @@
     <Content Include="Views\Collections\_CollectionList.cshtml" />
     <Content Include="Views\Home\IndexAuthenticated.cshtml" />
     <Content Include="Views\Home\_BookListing.cshtml" />
+    <Content Include="Views\Shared\_NavPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

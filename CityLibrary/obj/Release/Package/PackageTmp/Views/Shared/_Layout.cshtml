@@ -22,14 +22,7 @@
                 @Html.ActionLink("Biblioteka Kukuryki", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav" id="navbar-links">
-                    <li>@Html.ActionLink("Strona główna", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Kolekcje", "Index", "Collections")</li>
-                    <li>@Html.ActionLink("Książki", "Index", "Books")</li>
-                    <li>@Html.ActionLink("Autorzy", "Index", "Authors")</li>
-                    <li>@Html.ActionLink("Wydawnictwa", "Index", "Publishers")</li>
-                    <li>@Html.ActionLink("Użytkownicy", "Index", "Users")</li>
-                </ul>
+                @Html.Partial("_NavPartial")
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
