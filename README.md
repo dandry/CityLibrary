@@ -1,5 +1,5 @@
 # Biblioteka Kukuryki
-## Project codename: CityLibrary
+### Project codename: CityLibrary
 A small ASP.NET MVC sample application for managing a local book library.
 Website available at http://biblioteka-kukuryki.azurewebsites.net/
 
