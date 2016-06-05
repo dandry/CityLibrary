@@ -136,16 +136,17 @@ namespace CityLibrary.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [NonAction] //THIS CHANGED!!!!!!!!!
         public ActionResult Register()
         {
+            //return View();
             return View();
         }
 
-        //
-        // POST: /Account/Register
+
+        //POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [NonAction] //THIS CHANGED!!!!!!!!
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -155,8 +156,8 @@ namespace CityLibrary.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);

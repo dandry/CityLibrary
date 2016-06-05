@@ -1,6 +1,6 @@
 ﻿using CityLibrary.BL;
 using CityLibrary.DAL;
-using CityLibrary.Models.Library;
+using CityLibrary.DAL.Models;
 using CityLibrary.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,25 +15,33 @@ namespace CityLibrary.Controllers
     [Authorize]
     public class BooksController : Controller
     {
-        LibraryContext db = new LibraryContext();
-        AutocompleteBookLoad acBookLoad = new AutocompleteBookLoad();
+        IUnitOfWork uow;
+        BookFilter bf;
 
-        public ActionResult Index(string bookTitle, bool autocompleteSource = false)
+        public BooksController() : this(new UnitOfWork())
         {
-            ILookup<string, Book> books;
+        }
 
+        public BooksController(IUnitOfWork uow)
+        {
+            this.uow = uow;
+            bf = new BookFilter(uow);
+        }
+
+        public ActionResult Index(string bookDetails, bool autocompleteSource = false)
+        {
             if (Request.IsAjaxRequest())
             {
-                books = acBookLoad.FilterBooksToLookup(db, bookTitle, autocompleteSource);
+                var books = bf.FilterByAutocomplete(bookDetails, autocompleteSource).ToLookup(b => b.Title);
 
                 return PartialView("_BookList", books);
             }
             else
             {
-                books = db.LibraryBooks
-                    .OrderBy(b => b.Title)
-                    .ThenBy(b => b.ReturnDate)
-                    .Take(25)
+                var books = uow.BookRepository.Get(orderBy:
+                    q => q.OrderBy(b => b.Title)
+                    .ThenBy(b => b.ReturnDate))
+                    .Take(200)
                     .ToLookup(b => b.Title);
 
                 return View(books);
@@ -42,15 +50,7 @@ namespace CityLibrary.Controllers
 
         public JsonResult Autocomplete(string term)
         {
-            var result = db.LibraryBooks
-                .Where(b => b.Title.Contains(term))
-                .GroupBy(b => b.Title)
-                .Select(b => b.FirstOrDefault())
-                .Take(10)
-                .Select(b => new
-                {
-                    value = b.Title + " | " + b.Author
-                });
+            var result = bf.Autocomplete(term);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -62,27 +62,26 @@ namespace CityLibrary.Controllers
 
         public PartialViewResult AddCopy_LoadAuthors(string searchString)
         {
-            var bookList = db.LibraryBooks
-                .Where(b => b.Author.Contains(searchString))
+            var authorList = uow.BookRepository.Get(filter:
+                b => b.Author.Contains(searchString))
                 .GroupBy(b => b.Author)
                 .Select(b => b.FirstOrDefault())
                 .Select(b => new
                 {
                     Id = b.BookId,
                     Name = b.Author
-                })
-                .ToList();
+                });
 
-            ViewBag.AuthorsDropDown = new SelectList(bookList, "Name", "Name");
+            ViewBag.AuthorsDropDown = authorList;
 
             return PartialView("_AddCopy_LoadAuthors");
         }
 
         public PartialViewResult AddCopy_LoadAuthorBooks(string authorName)
         {
-            var bookList = db.LibraryBooks
-                .Where(b => b.Author == authorName)
-                .GroupBy(b => b.Title)
+            var bookList = uow.BookRepository.Get(filter:
+                b => b.Author.Contains(authorName))
+                .GroupBy(b => b.Author)
                 .Select(b => b.FirstOrDefault());
 
             return PartialView("_AddCopy_LoadAuthorBooks", bookList);
@@ -90,7 +89,7 @@ namespace CityLibrary.Controllers
 
         public PartialViewResult AddCopy_RenderDetails(int id)
         {
-            var book = db.LibraryBooks.Find(id);
+            var book = uow.BookRepository.GetById(id);
 
             var newCopy = new Book()
             {
@@ -105,12 +104,13 @@ namespace CityLibrary.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddCopy(Book book)
+        [ValidateAntiForgeryToken]
+        public ActionResult AddCopy([Bind(Exclude = "Collection")]Book book)
         {
             if (ModelState.IsValid)
             {
-                db.LibraryBooks.Add(book);
-                db.SaveChanges();
+                uow.BookRepository.Insert(book);
+                uow.Save();
 
                 return Json(new { url = Url.Action("Details", new { id = book.BookId }) });
             }
@@ -118,32 +118,9 @@ namespace CityLibrary.Controllers
             return PartialView("_AddCopy_Details", book);
         }
 
-        public ActionResult Authors(string name)
-        {
-            if (name == null)
-            {
-                var queriedBooks = db.LibraryBooks
-                    .OrderBy(b => b.Author)
-                    .ToLookup(b => b.Title);
-
-                return View(queriedBooks);
-            }
-            else
-            {
-                var queriedBooks = db.LibraryBooks
-                    .Where(b => b.Author.Contains(name))
-                    .OrderBy(b => b.Title)
-                    .ToLookup(b => b.Title);
-
-                ViewBag.AuthorName = name;
-
-                return View(queriedBooks);
-            }
-        }
-
         public ActionResult Details(int id)
         {
-            var book = db.LibraryBooks.Find(id);
+            var book = uow.BookRepository.GetById(id);
 
             //Enables and disabled buttons to return/prolong/borrow a book 
             //based on existance of UserId
@@ -163,36 +140,32 @@ namespace CityLibrary.Controllers
             return View(book);
         }
 
-        // GET: Book/Create
         public ActionResult Create()
         {
             //DropDownList initialization for Book Collections in the View
-            ViewBag.CollectionId = new SelectList(db.BookCollections, "CollectionId", "Name");
+            ViewBag.Collections = uow.BookCollectionRepository.Get(orderBy:
+                q => q.OrderBy(c => c.Name));
 
             return View();
         }
 
-        // POST: Book/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Book book)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    db.LibraryBooks.Add(book);
-                    db.SaveChanges();
-                    return RedirectToAction("Details", new { id = book.BookId });
-                }
-                throw new Exception("Saving to database failed.");
+                uow.BookRepository.Insert(book);
+                uow.Save();
+
+                return RedirectToAction("Details", new { id = book.BookId });
             }
-            catch
-            {
-                //DropDownList initialization for Book Collections in the View
-                ViewBag.CollectionId = new SelectList(db.BookCollections, "CollectionId", "Name");
-                return View(book);
-            }
+
+            //DropDownList initialization for Book Collections in the View
+            ViewBag.Collections = uow.BookCollectionRepository.Get(orderBy:
+            q => q.OrderBy(c => c.Name));
+
+            return View(book);
         }
 
         [HttpGet]
@@ -203,40 +176,38 @@ namespace CityLibrary.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.Collections = db.BookCollections;
-            var book = db.LibraryBooks.Find(id);
+            ViewBag.Collections = uow.BookCollectionRepository.Get(orderBy:
+                q => q.OrderBy(c => c.Name));
+
+            var book = uow.BookRepository.GetById(id);
 
             return View(book);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Book book)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    db.Entry(book).State = EntityState.Modified;
-                    db.SaveChanges();
+                uow.BookRepository.Update(book);
+                uow.Save();
 
-                    return RedirectToAction("Details", new { id = book.BookId });
-                }
-                ViewBag.Collections = db.BookCollections;
-                return View(book);
+                return RedirectToAction("Details", new { id = book.BookId });
             }
-            catch
-            {
-                return View(book);
-            }    
+
+            ViewBag.Collections = uow.BookCollectionRepository.Get(orderBy:
+            q => q.OrderBy(c => c.Name));
+
+            return View(book);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
-            var book = db.LibraryBooks.Find(id);
-            db.LibraryBooks.Remove(book);
-            db.SaveChanges();
+            uow.BookRepository.Delete(id);
+            uow.Save();
 
             return RedirectToAction("Index");
         }
@@ -249,7 +220,7 @@ namespace CityLibrary.Controllers
                 return RedirectToAction("Index", "Books");
             }
 
-            var book = db.LibraryBooks.Find(id);
+            var book = uow.BookRepository.GetById(id);
 
             if (book == null)
             {
@@ -261,55 +232,53 @@ namespace CityLibrary.Controllers
                 return new HttpStatusCodeResult(500, "Bad request");
             }
 
-            var userList = db.LibraryUsers.ToList();
+            var userList = uow.LibraryUserRepository.Get(orderBy:
+                q => q.OrderBy(u => u.LastName));
 
-            var bookBorrowViewModel = new BookBorrowViewModel()
+            var bookBorrowVM = new BookBorrowViewModel()
             {
                 Book = book,
-                Users = userList
+                Users = userList.ToList()
             };
 
-            return View(bookBorrowViewModel);
+            return View(bookBorrowVM);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Borrow(BookBorrowViewModel viewModel)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    var book = db.LibraryBooks.Find(viewModel.Book.BookId);
+                var book = uow.BookRepository.GetById(viewModel.Book.BookId);
 
-                    book.UserId = viewModel.SelectedListUserId;
-                    book.BorrowDate = viewModel.CurrentDate;
-                    book.ReturnDate = viewModel.ReturnDate;
+                book.UserId = viewModel.SelectedListUserId;
+                book.BorrowDate = viewModel.CurrentDate;
+                book.ReturnDate = viewModel.ReturnDate;
 
-                    db.LibraryBooks.AddOrUpdate(book);
-                    db.SaveChanges();
-                    return RedirectToAction("Details", new { id = book.BookId });
-                }
-                return RedirectToAction("Index");
+                uow.BookRepository.Update(book);
+                uow.Save();
+
+                return RedirectToAction("Details", new { id = book.BookId });
             }
-            catch
-            {
-                return RedirectToAction("Index");
-            }
+            return RedirectToAction("Index");
+
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Return(int id)
         {
             try
             {
-                var book = db.LibraryBooks.Find(id);
+                var book = uow.BookRepository.GetById(id);
 
                 book.UserId = null;
                 book.BorrowDate = null;
                 book.ReturnDate = null;
 
-                db.LibraryBooks.AddOrUpdate(book);
-                db.SaveChanges();
+                uow.BookRepository.Update(book);
+                uow.Save();
 
                 return RedirectToAction("Details", new { id = id });
             }
@@ -320,13 +289,14 @@ namespace CityLibrary.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Prolong(int id)
         {
-            var book = db.LibraryBooks.Find(id);
+            var book = uow.BookRepository.GetById(id);
             book.ReturnDate = DateTime.Now.AddMonths(1).AddDays(-1);
 
-            db.Entry(book).State = EntityState.Modified;
-            db.SaveChanges();
+            uow.BookRepository.Update(book);
+            uow.Save();
 
             return RedirectToAction("Details", new { id = book.BookId });
         }
@@ -339,25 +309,17 @@ namespace CityLibrary.Controllers
             var result = false;
 
             // passed from Edit action, so allow the ISBN
-            if (bookId != 0)
+            if (bookId != null)
             {
                 result = true;
             }
             // passed from Create/AddCopy actions, check if ISBN already exists
             else
             {
-                result = !db.LibraryBooks.Any(b => b.ISBN == ISBN);
+                result = uow.BookRepository.Get(filter:
+                    b => b.ISBN.Equals(ISBN)).Count() == 0 ? true : false;
             }
             return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

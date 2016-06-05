@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Book>
+
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Title)</th>
+                <th>@Html.DisplayNameFor(model => model.Author)</th>
+                <th>@Html.DisplayNameFor(model => model.ISBN)</th>
+                <th>@Html.DisplayName("Wypożyczona przez")</th>
+                <th>@Html.DisplayNameFor(model => model.ReturnDate)</th>
+                <th>@Html.DisplayNameFor(model => model.DaysLeft)</th>
+                <th>Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() == 0)
+            {
+                <tr><td colspan="7"><p>Brak książek do wyświetlenia.</p></td></tr>
+            }
+            else
+            {
+                foreach (var book in Model)
+                {
+                    <tr class="@((book.DaysLeft > 0) ? "success" : "danger")">
+                        <td>@Html.DisplayFor(item => book.Title)</td>
+                        <td>@Html.DisplayFor(item => book.Author)</td>
+                        <td>@Html.ActionLink(@Html.DisplayFor(item => book.ISBN).ToString(), "Details", "Books", new { id = book.BookId }, null) </td>
+                        <td>@Html.ActionLink(book.LibraryUser.FullName, "Details", "Users", new { id = book.UserId }, null)</td>
+                        <td>@Html.DisplayFor(item => book.ReturnDate)</td>
+                        <td>@Html.DisplayFor(item => book.DaysLeft)</td>
+                        <td>
+                            @Html.ActionLink("Szczegóły", "Details", "Books", new { id = book.BookId }, new { @class = "btn btn-primary btn-xs" })
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,17 @@
+﻿@model CityLibrary.ViewModels.BookListingViewModel
+
+@{
+    ViewBag.Title = "Wykaz wypożyczeń";
+}
+
+<h2>Wykaz wypożyczeń</h2>
+
+<hr />
+
+<h4>Bieżące wypożyczenia</h4>
+
+@Html.Partial("_BookListing", Model.ValidBorrowing)
+
+<h4>Wypożyczenia przeterminowane</h4>
+
+@Html.Partial("_BookListing", Model.ExpiredBorrowing)

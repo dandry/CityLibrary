@@ -7,73 +7,50 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CityLibrary.DAL;
-using CityLibrary.Models.Library;
+using CityLibrary.BL;
+using CityLibrary.DAL.Models;
 
 namespace CityLibrary.Controllers
 {
     [Authorize]
     public class UsersController : Controller
     {
-        LibraryContext db = new LibraryContext();
+        IUnitOfWork uow;
+        BookFilter bf;
+        UserFilter uf;
 
-        //private ILibraryUserRepository userRepository;
+        public UsersController() : this(new UnitOfWork())
+        {
+        }
 
-        //public UsersController()
-        //{
-        //    this.userRepository = new LibraryUserRepository(new LibraryContext());
-        //}
+        public UsersController(IUnitOfWork uow)
+        {
+            this.uow = uow;
+            bf = new BookFilter(uow);
+            uf = new UserFilter(uow);
+        }
 
         public ActionResult Index(string userName, bool autocompleteSource = false)
         {
+            IEnumerable<LibraryUser> userList;
+
             if (Request.IsAjaxRequest())
             {
-                IList<LibraryUser> userListFiltered;
-
-                if (autocompleteSource)
-                {
-                    var userNameArray = userName.Split(' ');
-
-                    var lastName = userNameArray[0];
-                    var firstName = userNameArray[1];
-
-                    userListFiltered = db.LibraryUsers
-                    .Where(u => (u.FirstName.Contains(firstName) || u.LastName.Contains(lastName)))
-                    .ToList();
-                }
-                else
-                {
-                    userListFiltered = db.LibraryUsers
-                    .Where(u => (u.FirstName.Contains(userName) || u.LastName.Contains(userName)))
-                    .ToList();
-                }
+                userList = uf.FilterByName(userName, autocompleteSource).Take(50);
                 
-                return PartialView("_UserList", userListFiltered);
+                return PartialView("_UserList", userList);
             }
 
-            var userList = db.LibraryUsers
-                .OrderBy(u => u.LastName).ToList();
+            userList = uow.LibraryUserRepository.Get(orderBy:
+                q => q.OrderBy(u => u.LastName))
+                .Take(25);
 
             return View(userList);
         }
 
-        public JsonResult Autocomplete(string term)
-        {
-
-            var result = db.LibraryUsers
-                .Where(u => (u.FirstName.Contains(term) || u.LastName.Contains(term)))
-                .OrderBy(u => u.LastName)
-                .Take(10)
-                .Select(b => new
-                {
-                    value = b.LastName + " " + b.FirstName
-                });
-
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-
         public PartialViewResult LoadUserBooks(int id)
         {
-            var user = db.LibraryUsers.Find(id);
+            var user = uow.LibraryUserRepository.GetById(id);
 
             return PartialView("_UserBookList", user);
         }
@@ -84,7 +61,7 @@ namespace CityLibrary.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LibraryUser libraryUser = db.LibraryUsers.Find(id);
+            LibraryUser libraryUser = uow.LibraryUserRepository.GetById(id);
             if (libraryUser == null)
             {
                 return HttpNotFound();
@@ -92,42 +69,16 @@ namespace CityLibrary.Controllers
             return View(libraryUser);
         }
 
-        public PartialViewResult BorrowBooks(int id)
+        public PartialViewResult BorrowBook(int id)
         {
-            var user = db.LibraryUsers.Find(id);
+            var user = uow.LibraryUserRepository.GetById(id);
 
             return PartialView("_BorrowBook", user);
         }
 
-        public PartialViewResult BorrowBook_LoadBooks(int id, string bookDetails)
+        public PartialViewResult BorrowBook_LoadBooks(int id, string bookDetails, bool autocompleteSource = false)
         {
-            // 'bookDetails' parameter format received by jQuery autocomplete: "BookTitle | BookAuthor" 
-
-            var bookDetailsArray = bookDetails.Split(new string[] { " | " }, StringSplitOptions.None);
-            // if a normal string (w/o autocomplete) has been passed, the array contains only one element (no split occured)
-            // assumption: there are no titles and authors entities which contain | char
-
-            List<Book> books;
-
-            if (bookDetailsArray.Count() == 1)
-            {
-                // custom search string passed
-                books = db.LibraryBooks
-                    .Where(b => b.UserId == null && (b.Title.Contains(bookDetails) || b.Author.Contains(bookDetails)))
-                    .OrderBy(b => b.Title)
-                    .ToList();
-            }
-            else
-            {
-                // jQuery autocomplete format passed
-                var title = bookDetailsArray[0];
-                var author = bookDetailsArray[1];
-
-                books = db.LibraryBooks
-                    .Where(b => b.UserId == null && (b.Title.Contains(title) && b.Author.Contains(author)))
-                    .OrderBy(b => b.Title)
-                    .ToList();
-            }
+            var books = bf.FilterByType(BookType.Available, bookDetails, autocompleteSource);
 
             ViewBag.UserId = id;
 
@@ -135,16 +86,17 @@ namespace CityLibrary.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult BorrowBook(int id, int userId)
         {
-            var book = db.LibraryBooks.Find(id);
+            var book = uow.BookRepository.GetById(id);
 
             book.UserId = userId;
             book.BorrowDate = DateTime.Now;
             book.ReturnDate = book.BorrowDate.Value.AddMonths(1).AddDays(-1);
 
-            db.Entry(book).State = EntityState.Modified;
-            db.SaveChanges();
+            uow.BookRepository.Update(book);
+            uow.Save();
 
             return RedirectToAction("Index");
         }
@@ -162,8 +114,8 @@ namespace CityLibrary.Controllers
             {
                 user.RegistrationDate = DateTime.Now;
 
-                db.LibraryUsers.Add(user);
-                db.SaveChanges();
+                uow.LibraryUserRepository.Insert(user);
+                uow.Save();
 
                 return RedirectToAction("Details", new { id = user.UserId });
             }
@@ -178,7 +130,7 @@ namespace CityLibrary.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var user = db.LibraryUsers.Find(id);
+            var user = uow.LibraryUserRepository.GetById(id);
 
             if (user == null)
             {
@@ -194,8 +146,8 @@ namespace CityLibrary.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
+                uow.LibraryUserRepository.Update(user);
+                uow.Save();
 
                 return RedirectToAction("Details", new { id = user.UserId });
             }
@@ -206,20 +158,42 @@ namespace CityLibrary.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
-            var user = db.LibraryUsers.Find(id);
-            db.LibraryUsers.Remove(user);
-            db.SaveChanges();
+            uow.LibraryUserRepository.Delete(id);
+            uow.Save();
 
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        public JsonResult Autocomplete(string type, string term)
         {
-            if (disposing)
+            object result;
+
+            if (type == "user")
             {
-                db.Dispose();
+                result = uf.Autocomplete(term);
             }
-            base.Dispose(disposing);
+            else // book
+            {
+                result = bf.Autocomplete(term);
+            }
+            
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult IsPeselAvailable(long pesel, int? userId)
+        {
+            var result = false;
+
+            if (userId != null)
+            {
+                result = true;
+            }
+            else
+            {
+                result = uow.LibraryUserRepository.Get(filter:
+                    u => u.PESEL.Equals(pesel)).Count() == 0 ? true : false;
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

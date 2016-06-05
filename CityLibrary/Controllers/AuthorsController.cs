@@ -1,5 +1,5 @@
-﻿using CityLibrary.DAL;
-using CityLibrary.Models.Library;
+﻿using CityLibrary.BL;
+using CityLibrary.DAL;
 using CityLibrary.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,25 +12,26 @@ namespace CityLibrary.Controllers
     [Authorize]
     public class AuthorsController : Controller
     {
-        LibraryContext db = new LibraryContext();
+        IUnitOfWork uow;
+        AuthorFilter af;
 
-        public ActionResult Index(string authorName, bool autocompleteSource = false)
+        public AuthorsController() : this (new UnitOfWork())
         {
-            IDictionary<string, List<Book>> authorList;
+        }
 
-            if (Request.IsAjaxRequest())
-            {
-                authorList = db.LibraryBooks
-                .Where(b => b.Author.Contains(authorName))
-                .GroupBy(b => b.Author)
-                .ToDictionary(g => g.Key, g => g.ToList());   
-            }
-            else
-            {
-                authorList = db.LibraryBooks
-                   .GroupBy(b => b.Author)
+        public AuthorsController(IUnitOfWork uow)
+        {
+            this.uow = uow;
+            af = new AuthorFilter(uow);
+        }
+
+        public ActionResult Index(string authorName = "", bool autocompleteSource = false)
+        {
+            var authorList = uow.BookRepository.Get(filter:
+                    b => b.Author.Contains(authorName), orderBy:
+                    q => q.OrderBy(b => b.Author))
+                    .GroupBy(b => b.Author)
                     .ToDictionary(g => g.Key, g => g.ToList());
-            }
 
             List<AuthorPublisherViewModel> authorVMList = new List<AuthorPublisherViewModel>();
 
@@ -59,39 +60,21 @@ namespace CityLibrary.Controllers
         public JsonResult Autocomplete(string term)
         {
 
-            var result = db.LibraryBooks
-                .Where(b => b.Author.Contains(term))
-                .GroupBy(b => b.Author)
-                .Select(b => b.FirstOrDefault())
-                .Take(10)
-                .Select(b => new
-                {
-                    value = b.Author
-                });
+            var result = af.Autocomplete(term);
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Details(string name)
         {
-            var authorBooks = db.LibraryBooks
-                    .Where(b => b.Author.Contains(name))
-                    .OrderBy(b => b.Author)
-                    .ThenBy(b => b.Title)
+            var authorBooks = uow.BookRepository.Get(filter:
+                    b => b.Author.Contains(name), orderBy:
+                    q => q.OrderBy(b => b.Author).ThenBy(b => b.Title))
                     .ToLookup(b => b.Title);
 
             ViewBag.AuthorName = name;
 
             return View(authorBooks);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

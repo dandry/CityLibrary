@@ -1,0 +1,62 @@
+﻿@model LibraryUser
+
+<div class="modal-header">
+    <h3 class="modal-title">Historia wypożyczeń</h3>
+    <h4><i>@Model.FullName</i></h4>
+</div>
+<div class="modal-body">
+    <div class="content">
+        <p>Aktualnie wypożyczone książki:</p>
+
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Autor</th>
+                    <th>Tytuł</th>
+                    <th>Data zwrotu</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="5"><p><strong>Aktualnie wypożyczone książki:</strong></p></td>
+                </tr>
+                @if (Model.BorrowedBooks.Count == 0)
+                {
+                    <tr>
+                        <td></td>
+                        <td colspan="3"><i>Brak książek do wyświetlenia.</i></td>
+                    </tr>
+                }
+                else
+                {
+                    var i = 1;
+                    foreach (var book in Model.BorrowedBooks)
+                    {
+                        <tr @((book.DaysLeft > 0) ? "class = success" : "class = danger")>
+                            <td>@i</td>
+                            <td>@Html.DisplayFor(item => book.Author)</td>
+                            <td>@Html.DisplayFor(item => book.Title)</td>
+                            <td>@Html.DisplayFor(item => book.ReturnDate)</td>
+                            <td>@Html.ActionLink("Szczegóły", "Details", "Books", new { id = book.BookId }, new { @class = "btn btn-default btn-xs" })</td>
+                        </tr>
+                        i++;
+                    }
+                }
+                <tr><td colspan="5">&nbsp</td></tr>
+                <tr>
+                    <td colspan="5"><p><strong>Historia wypożyczeń:</strong></p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    @*TODO: implement borrowing history*@
+                    <td colspan="3"><i>Brak książek do wyświetlenia.</i></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+</div>
