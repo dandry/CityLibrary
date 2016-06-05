@@ -8,5 +8,4 @@ Website available at http://biblioteka-kukuryki.azurewebsites.net/
 
 
 Created by Daniel Andraszewski
-
 2016
