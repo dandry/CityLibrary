@@ -9,13 +9,17 @@ namespace CityLibrary.DAL
 {
     public class LibraryContext : DbContext
     {
-        public DbSet<LibraryUser> LibraryUsers { get; set; }
+        public virtual DbSet<LibraryUser> LibraryUsers { get; set; }
         public DbSet<BookCollection> BookCollections { get; set; }
         public DbSet<Book> LibraryBooks { get; set; }
 
         public LibraryContext() : base("ExternalDB")
         {
             //Database.SetInitializer<LibraryContext>(new LibraryInitializer());
+        }
+
+        public LibraryContext(string connString) : base(connString)
+        {
         }
     }
 }

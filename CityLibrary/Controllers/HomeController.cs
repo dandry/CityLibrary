@@ -38,25 +38,11 @@ namespace CityLibrary.Controllers
                     if (b.DaysLeft > 0)
                         bookListingVM.ValidBorrowing.Add(b);
                     else
-                        bookListingVM.ExpiredBorrowing.Add(b);
+                        bookListingVM.PendingBorrowing.Add(b);
                 }
 
                 return View("IndexAuthenticated", bookListingVM);
             }
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

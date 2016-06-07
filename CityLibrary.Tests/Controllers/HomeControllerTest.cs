@@ -6,49 +6,58 @@ using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CityLibrary;
 using CityLibrary.Controllers;
+using Moq;
+using System.Web;
+using System.Web.Routing;
+using CityLibrary.Tests.FakeComponents;
+using CityLibrary.ViewModels;
 
 namespace CityLibrary.Tests.Controllers
 {
     [TestClass]
     public class HomeControllerTest
     {
+        FakeUnitOfWork fUow = new FakeUnitOfWork();
+
         [TestMethod]
-        public void Index()
+        public void Index_IsAuthenticated()
         {
-            //// Arrange
-            //HomeController controller = new HomeController();
+            // user authenticated
 
-            //// Act
-            //ViewResult result = controller.Index() as ViewResult;
+            // arrange
+            HomeController controller = new HomeController(fUow);
 
-            //// Assert
-            //Assert.IsNotNull(result);
+                // fake authentication = true
+                controller.ControllerContext = FakeUserAuthContext.UserAuthenticated(true, controller);
+
+            // act
+            ViewResult viewResult = (ViewResult)controller.Index();
+
+            // assert
+            var model = viewResult.Model as BookListingViewModel;
+
+            Assert.AreEqual(1, (model.PendingBorrowing.Count));
+            Assert.AreEqual(3, (model.ValidBorrowing.Count));
+
         }
 
         [TestMethod]
-        public void About()
+        public void Index_IsNotAuthenticated()
         {
-            //// Arrange
-            //HomeController controller = new HomeController();
+            // user not authenticated
 
-            //// Act
-            //ViewResult result = controller.About() as ViewResult;
+            // arrange
+            HomeController controller = new HomeController();
 
-            //// Assert
-            //Assert.AreEqual("Your application description page.", result.ViewBag.Message);
+                // fake authentication = false
+                controller.ControllerContext = FakeUserAuthContext.UserAuthenticated(false, controller);
+
+            // act
+            ViewResult viewResult = (ViewResult)controller.Index();
+
+            // assert
+            Assert.AreEqual(viewResult.ViewName, "");
         }
 
-        [TestMethod]
-        public void Contact()
-        {
-            //// Arrange
-            //HomeController controller = new HomeController();
-
-            //// Act
-            //ViewResult result = controller.Contact() as ViewResult;
-
-            //// Assert
-            //Assert.IsNotNull(result);
-        }
     }
 }
