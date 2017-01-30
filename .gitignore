@@ -53,3 +53,6 @@ Web_ConnectionStrings.config
 #Local databases
 *.mdf
 *.ldf
+
+#bin folders
+bin/
