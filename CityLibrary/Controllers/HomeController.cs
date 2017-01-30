@@ -38,7 +38,7 @@ namespace CityLibrary.Controllers
                     if (b.DaysLeft > 0)
                         bookListingVM.ValidBorrowing.Add(b);
                     else
-                        bookListingVM.PendingBorrowing.Add(b);
+                        bookListingVM.ExpiredBorrowing.Add(b);
                 }
 
                 return View("IndexAuthenticated", bookListingVM);

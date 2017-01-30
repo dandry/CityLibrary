@@ -11,11 +11,11 @@ namespace CityLibrary.ViewModels
         public BookListingViewModel()
         {
             ValidBorrowing = new List<Book>();
-            PendingBorrowing = new List<Book>();
+            ExpiredBorrowing = new List<Book>();
         }
 
         public List<Book> ValidBorrowing { get; set; }
 
-        public List<Book> PendingBorrowing { get; set; }
+        public List<Book> ExpiredBorrowing { get; set; }
     }
 }

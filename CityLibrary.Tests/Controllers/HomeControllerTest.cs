@@ -36,7 +36,7 @@ namespace CityLibrary.Tests.Controllers
             // assert
             var model = viewResult.Model as BookListingViewModel;
 
-            Assert.AreEqual(1, (model.PendingBorrowing.Count));
+            Assert.AreEqual(1, (model.ExpiredBorrowing.Count));
             Assert.AreEqual(3, (model.ValidBorrowing.Count));
 
         }
