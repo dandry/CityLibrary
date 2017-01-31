@@ -232,13 +232,13 @@ namespace CityLibrary.Controllers
                 return new HttpStatusCodeResult(500, "Bad request");
             }
 
-            var userList = uow.LibraryUserRepository.Get(orderBy:
+            var userList = uow.UserRepository.Get(orderBy:
                 q => q.OrderBy(u => u.LastName));
 
             var bookBorrowVM = new BookBorrowViewModel()
             {
                 Book = book,
-                Users = userList.ToList()
+                //Users = userList.ToList()
             };
 
             return View(bookBorrowVM);

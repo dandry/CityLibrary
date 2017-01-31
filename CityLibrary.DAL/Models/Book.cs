@@ -38,8 +38,6 @@ namespace CityLibrary.DAL.Models
         [Display(Name = "Rok wydania")]
         public int YearPrinted { get; set; }
 
-        public int? UserId { get; set; }
-
         [Required]
         public int CollectionId { get; set; }
 
@@ -54,8 +52,9 @@ namespace CityLibrary.DAL.Models
         public DateTime? ReturnDate { get; set; }
 
         public virtual BookCollection Collection { get; set; }
-        public virtual LibraryUser LibraryUser { get; set; }
 
+        public int? UserId { get; set; }
+        public virtual LibraryUser User { get; set; }
 
         // Not mapped properties
         [NotMapped]
@@ -73,17 +72,6 @@ namespace CityLibrary.DAL.Models
 
         [NotMapped]
         [Display(Name = "Wypożyczył")]
-        public string UserFullName
-        {
-            get
-            {
-                if (LibraryUser == null)
-                    return null;
-
-                return LibraryUser.FullName;
-            }
-        }
-
-        
+        public string UserFullName => User?.FullName;
     }
 }

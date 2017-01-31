@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using CityLibrary.DAL.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -136,7 +137,7 @@ namespace CityLibrary.Controllers
 
         //
         // GET: /Account/Register
-        [NonAction] //THIS CHANGED!!!!!!!!!
+        [AllowAnonymous]
         public ActionResult Register()
         {
             //return View();
@@ -146,7 +147,7 @@ namespace CityLibrary.Controllers
 
         //POST: /Account/Register
         [HttpPost]
-        [NonAction] //THIS CHANGED!!!!!!!!
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -166,6 +167,7 @@ namespace CityLibrary.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
+
                 AddErrors(result);
             }
 

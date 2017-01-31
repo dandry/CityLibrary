@@ -18,42 +18,42 @@ namespace CityLibrary.BL
 
         public IEnumerable<LibraryUser> FilterByName(string userName, bool autocompleteSource)
         {
-            IEnumerable<LibraryUser> result;
+            IEnumerable<LibraryUser> result = new List<LibraryUser>();
 
-            if (autocompleteSource)
-            {
-                var userNameArray = userName.Split(' ');
+        //    if (autocompleteSource)
+        //    {
+        //        var userNameArray = userName.Split(' ');
 
-                var lastName = userNameArray[0];
-                var firstName = userNameArray[1];
+        //        var lastName = userNameArray[0];
+        //        var firstName = userNameArray[1];
 
-                result = uow.LibraryUserRepository.Get(filter:
-                    u => u.FirstName.Contains(firstName)
-                    || u.LastName.Contains(lastName), orderBy:
-                    q => q.OrderBy(u => u.LastName));
-            }
-            else
-            {
-                result = uow.LibraryUserRepository.Get(filter:
-                    u => u.FirstName.Contains(userName)
-                    || u.LastName.Contains(userName), orderBy:
-                    q => q.OrderBy(u => u.LastName));
-            }
+        //        result = uow.UserRepository.Get(filter:
+        //            u => u.FirstName.Contains(firstName)
+        //            || u.LastName.Contains(lastName), orderBy:
+        //            q => q.OrderBy(u => u.LastName));
+        //    }
+        //    else
+        //    {
+        //        result = uow.UserRepository.Get(filter:
+        //            u => u.FirstName.Contains(userName)
+        //            || u.LastName.Contains(userName), orderBy:
+        //            q => q.OrderBy(u => u.LastName));
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        public object Autocomplete(string name)
-        {
-            var result = uow.LibraryUserRepository.Get(filter:
-                u => u.FirstName.Contains(name)
-                || u.LastName.Contains(name), orderBy:
-                q => q.OrderBy(u => u.LastName))
-                .Take(10)
-                .Select(b => new
-                {
-                    value = b.LastName + " " + b.FirstName + ", " + b.PESEL
-                });
+        //public object Autocomplete(string name)
+        //{
+        //    var result = uow.UserRepository.Get(filter:
+        //        u => u.FirstName.Contains(name)
+        //        || u.LastName.Contains(name), orderBy:
+        //        q => q.OrderBy(u => u.LastName))
+        //        .Take(10)
+        //        .Select(b => new
+        //        {
+        //            value = b.LastName + " " + b.FirstName + ", " + b.PESEL
+        //        });
 
             return result;
         }

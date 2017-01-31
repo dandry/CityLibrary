@@ -41,18 +41,16 @@ namespace CityLibrary.Controllers
                 return PartialView("_UserList", userList);
             }
 
-            userList = uow.LibraryUserRepository.Get(orderBy:
-                q => q.OrderBy(u => u.LastName))
-                .Take(25);
+            userList = new List<LibraryUser>();
 
             return View(userList);
         }
 
         public PartialViewResult LoadUserBooks(int id)
         {
-            var user = uow.LibraryUserRepository.GetById(id);
+            var user = uow.UserRepository.GetById(id);
 
-            return PartialView("_UserBookList", user);
+            return PartialView("_UserBookList", new LibraryUser());
         }
 
         public ActionResult Details(int? id)
@@ -61,7 +59,7 @@ namespace CityLibrary.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            LibraryUser libraryUser = uow.LibraryUserRepository.GetById(id);
+            ApplicationUser libraryUser = uow.UserRepository.GetById(id);
             if (libraryUser == null)
             {
                 return HttpNotFound();
@@ -71,7 +69,7 @@ namespace CityLibrary.Controllers
 
         public PartialViewResult BorrowBook(int id)
         {
-            var user = uow.LibraryUserRepository.GetById(id);
+            var user = uow.UserRepository.GetById(id);
 
             return PartialView("_BorrowBook", user);
         }
@@ -114,7 +112,7 @@ namespace CityLibrary.Controllers
             {
                 user.RegistrationDate = DateTime.Now;
 
-                uow.LibraryUserRepository.Insert(user);
+                //uow.UserRepository.Insert(user);
                 uow.Save();
 
                 return RedirectToAction("Details", new { id = user.UserId });
@@ -130,7 +128,7 @@ namespace CityLibrary.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var user = uow.LibraryUserRepository.GetById(id);
+            var user = uow.UserRepository.GetById(id);
 
             if (user == null)
             {
@@ -146,7 +144,7 @@ namespace CityLibrary.Controllers
         {
             if (ModelState.IsValid)
             {
-                uow.LibraryUserRepository.Update(user);
+                //uow.UserRepository.Update(user);
                 uow.Save();
 
                 return RedirectToAction("Details", new { id = user.UserId });
@@ -158,7 +156,7 @@ namespace CityLibrary.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
-            uow.LibraryUserRepository.Delete(id);
+            uow.UserRepository.Delete(id);
             uow.Save();
 
             return RedirectToAction("Index");
@@ -166,11 +164,11 @@ namespace CityLibrary.Controllers
 
         public JsonResult Autocomplete(string type, string term)
         {
-            object result;
+            object result = new object();
 
             if (type == "user")
             {
-                result = uf.Autocomplete(term);
+                //result = uf.Autocomplete(term);
             }
             else // book
             {
@@ -180,20 +178,20 @@ namespace CityLibrary.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult IsPeselAvailable(long pesel, int? userId)
-        {
-            var result = false;
+        //public JsonResult IsPeselAvailable(long pesel, int? userId)
+        //{
+        //    var result = false;
 
-            if (userId != null)
-            {
-                result = true;
-            }
-            else
-            {
-                result = uow.LibraryUserRepository.Get(filter:
-                    u => u.PESEL.Equals(pesel)).Count() == 0 ? true : false;
-            }
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
+        //    if (userId != null)
+        //    {
+        //        result = true;
+        //    }
+        //    else
+        //    {
+        //        result = uow.UserRepository.Get(filter:
+        //            u => u.PESEL.Equals(pesel)).Count() == 0 ? true : false;
+        //    }
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
     }
 }

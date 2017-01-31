@@ -15,7 +15,7 @@ namespace CityLibrary.Tests.FakeComponents
         LibraryContext dummyContext = new LibraryContext("DummyDb");
 
         private GenericRepository<BookCollection> collectionRepository;
-        private GenericRepository<LibraryUser> userRepository;
+        private IdentityRepository<ApplicationUser> userRepository;
         private GenericRepository<Book> bookRepository;
 
         public GenericRepository<BookCollection> BookCollectionRepository
@@ -31,14 +31,14 @@ namespace CityLibrary.Tests.FakeComponents
             }
         }
 
-        public GenericRepository<LibraryUser> LibraryUserRepository
+        public IdentityRepository<ApplicationUser> UserRepository
         {
             get
             {
 
                 if (this.userRepository == null)
                 {
-                    this.userRepository = new GenericRepository<LibraryUser>(dummyContext);
+                    this.userRepository = new IdentityRepository<ApplicationUser>(new IdentityContext());
                 }
                 return userRepository;
             }

@@ -10,15 +10,15 @@ namespace CityLibrary.DAL
     //{
     //    protected override void Seed(LibraryContext context)
     //    {
-    //        var users = new List<LibraryUser>()
+    //        var users = new List<User>()
     //        {
-    //            new LibraryUser() {FirstName = "Daniel", LastName = "Andraszewski", DateOfBirth = DateTime.Parse("08-09-1992"), RegistrationDate = DateTime.Parse("30-04-2016") },
-    //            new LibraryUser() {FirstName = "Zuzanna", LastName = "Białek", DateOfBirth = DateTime.Parse("13-05-1995"), RegistrationDate = DateTime.Parse("04-05-2016") },
-    //            new LibraryUser() {FirstName = "Jan", LastName = "Kowalski", DateOfBirth = DateTime.Parse("01-02-1971"), RegistrationDate = DateTime.Parse("04-05-2016") },
-    //            new LibraryUser() {FirstName = "Anna", LastName = "Mucha", DateOfBirth = DateTime.Parse("25-11-1987"), RegistrationDate = DateTime.Parse("03-05-2016") },
-    //            new LibraryUser() {FirstName = "Rżąca", LastName = "Beata", DateOfBirth = DateTime.Parse("19-08-1971"), RegistrationDate = DateTime.Parse("02-05-2016") },
-    //            new LibraryUser() {FirstName = "Zawadzki", LastName = "Mirosław", DateOfBirth = DateTime.Parse("28-06-1964"), RegistrationDate = DateTime.Parse("02-05-2016") },
-    //            new LibraryUser() {FirstName = "Wyga", LastName = "Maciej", DateOfBirth = DateTime.Parse("28-01-1998"), RegistrationDate = DateTime.Parse("02-05-2016") }
+    //            new User() {FirstName = "Daniel", LastName = "Andraszewski", DateOfBirth = DateTime.Parse("08-09-1992"), RegistrationDate = DateTime.Parse("30-04-2016") },
+    //            new User() {FirstName = "Zuzanna", LastName = "Białek", DateOfBirth = DateTime.Parse("13-05-1995"), RegistrationDate = DateTime.Parse("04-05-2016") },
+    //            new User() {FirstName = "Jan", LastName = "Kowalski", DateOfBirth = DateTime.Parse("01-02-1971"), RegistrationDate = DateTime.Parse("04-05-2016") },
+    //            new User() {FirstName = "Anna", LastName = "Mucha", DateOfBirth = DateTime.Parse("25-11-1987"), RegistrationDate = DateTime.Parse("03-05-2016") },
+    //            new User() {FirstName = "Rżąca", LastName = "Beata", DateOfBirth = DateTime.Parse("19-08-1971"), RegistrationDate = DateTime.Parse("02-05-2016") },
+    //            new User() {FirstName = "Zawadzki", LastName = "Mirosław", DateOfBirth = DateTime.Parse("28-06-1964"), RegistrationDate = DateTime.Parse("02-05-2016") },
+    //            new User() {FirstName = "Wyga", LastName = "Maciej", DateOfBirth = DateTime.Parse("28-01-1998"), RegistrationDate = DateTime.Parse("02-05-2016") }
     //        };
 
     //        users.ForEach(s => context.LibraryUsers.Add(s));

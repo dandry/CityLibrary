@@ -26,12 +26,16 @@ namespace CityLibrary.Controllers
         {
             if (Request.IsAuthenticated)
             {
+                var user1 = uow.UserRepository.Get(u => u.FirstName == "Daniel");
+
                 var books = uow.BookRepository.Get(filter:
                     b => b.UserId.HasValue, orderBy:
                     q => q.OrderBy(b => b.ReturnDate))
                     .Take(50);
 
                 var bookListingVM = new BookListingViewModel();
+
+                var user = uow.UserRepository.Get(q => q.FirstName == "Daniel");
 
                 foreach (Book b in books)
                 {

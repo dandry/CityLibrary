@@ -18,7 +18,7 @@ namespace CityLibrary.Tests.FakeComponents
 
             // deleting existing DB records
             var existingBooks = fUow.BookRepository.Get();
-            var existingUsers = fUow.LibraryUserRepository.Get();
+            var existingUsers = fUow.UserRepository.Get();
             var existingCollections = fUow.BookCollectionRepository.Get();
 
             if (existingBooks.Count() != 0)
@@ -29,7 +29,7 @@ namespace CityLibrary.Tests.FakeComponents
             if (existingUsers.Count() != 0)
             {
                 foreach (var user in existingUsers)
-                    fUow.LibraryUserRepository.Delete(user);
+                    fUow.UserRepository.Delete(user);
             }
             if (existingCollections.Count() != 0)
             {
@@ -46,12 +46,12 @@ namespace CityLibrary.Tests.FakeComponents
             fUow.Save();
             foreach (var user in dummyUsers)
             {
-                fUow.LibraryUserRepository.Insert(user);
+                //fUow.UserRepository.Insert(user);
             }
             fUow.Save();
 
             var collectionIdStartNumber = fUow.BookCollectionRepository.Get().FirstOrDefault().CollectionId;
-            var userIdStartNumber = fUow.LibraryUserRepository.Get().FirstOrDefault().UserId;
+            var userIdStartNumber = 1;
             foreach (var book in dummyBooks)
             {
                 if (book.BorrowDate != null)

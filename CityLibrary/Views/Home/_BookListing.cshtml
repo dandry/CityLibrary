@@ -26,7 +26,7 @@
                         <td>@Html.DisplayFor(item => book.Title)</td>
                         <td>@Html.DisplayFor(item => book.Author)</td>
                         <td>@Html.ActionLink(@Html.DisplayFor(item => book.ISBN).ToString(), "Details", "Books", new { id = book.BookId }, null) </td>
-                        <td>@Html.ActionLink(book.LibraryUser.FullName, "Details", "Users", new { id = book.UserId }, null)</td>
+                        <td>@Html.ActionLink(book.User.FullName, "Details", "Users", new { id = book.UserId }, null)</td>
                         <td>@Html.DisplayFor(item => book.ReturnDate)</td>
                         <td>@Html.DisplayFor(item => book.DaysLeft)</td>
                         <td>

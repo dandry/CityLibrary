@@ -21,3 +21,7 @@ D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.BL\bin\Debug\System.Web.W
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.BL\bin\Debug\System.Web.WebPages.Deployment.xml
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.BL\obj\Debug\CityLibrary.BL.dll
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.BL\obj\Debug\CityLibrary.BL.pdb
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.BL\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.BL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.BL\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.BL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml

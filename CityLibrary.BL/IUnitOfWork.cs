@@ -9,7 +9,7 @@ namespace CityLibrary.DAL
     public interface IUnitOfWork
     {
         GenericRepository<BookCollection> BookCollectionRepository { get; }
-        GenericRepository<LibraryUser> LibraryUserRepository { get; }
+        IdentityRepository<ApplicationUser> UserRepository { get; }
         GenericRepository<Book> BookRepository { get; }
 
         void Save();        

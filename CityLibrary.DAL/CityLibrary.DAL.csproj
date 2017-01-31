@@ -38,6 +38,12 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
@@ -79,16 +85,23 @@
   <ItemGroup>
     <Compile Include="Attributes\BookPrintDateRangeAttribute.cs" />
     <Compile Include="GenericRepository.cs" />
+    <Compile Include="IdentityContext.cs" />
+    <Compile Include="IdentityRepository.cs" />
     <Compile Include="LibraryContext.cs" />
     <Compile Include="LibraryInitializer.cs" />
     <Compile Include="Migrations\201606042023304_WebDeploy.cs" />
     <Compile Include="Migrations\201606042023304_WebDeploy.Designer.cs">
       <DependentUpon>201606042023304_WebDeploy.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201701302140332_ApplicationUserPropertiesAltering.cs" />
+    <Compile Include="Migrations\201701302140332_ApplicationUserPropertiesAltering.Designer.cs">
+      <DependentUpon>201701302140332_ApplicationUserPropertiesAltering.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BookCollection.cs" />
     <Compile Include="Models\BookType.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LibraryUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -99,6 +112,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201606042023304_WebDeploy.resx">
       <DependentUpon>201606042023304_WebDeploy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701302140332_ApplicationUserPropertiesAltering.resx">
+      <DependentUpon>201701302140332_ApplicationUserPropertiesAltering.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

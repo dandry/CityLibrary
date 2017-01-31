@@ -23,3 +23,8 @@ D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.DAL\bin\Debug\System.Web.
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.DAL\obj\Debug\CityLibrary.DAL.csprojResolveAssemblyReference.cache
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.DAL\obj\Debug\CityLibrary.DAL.Migrations.WebDeploy.resources
 D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.DAL\obj\Debug\CityLibrary.DAL.csproj.GenerateResource.Cache
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.DAL\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.DAL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.DAL\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.DAL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Visual Studio 2015\Projects\CityLibrary\CityLibrary.DAL\obj\Debug\CityLibrary.DAL.Migrations.ApplicationUserPropertiesAltering.resources
