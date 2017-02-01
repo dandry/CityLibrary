@@ -80,9 +80,10 @@ namespace CityLibrary.Controllers
         public PartialViewResult AddCopy_LoadAuthorBooks(string authorName)
         {
             var bookList = uow.BookRepository.Get(filter:
-                b => b.Author.Contains(authorName))
-                .GroupBy(b => b.Author)
-                .Select(b => b.FirstOrDefault());
+                    b => b.Author.Contains(authorName))
+                .GroupBy(b => b.Title)
+                .Select(b => b.FirstOrDefault())
+                .ToList();
 
             return PartialView("_AddCopy_LoadAuthorBooks", bookList);
         }
@@ -306,7 +307,7 @@ namespace CityLibrary.Controllers
         //have it them set to 0, but an Edit action has actually the Id.
         public JsonResult IsISBNAvailable(string ISBN, int? bookId)
         {
-            var result = false;
+            bool result;
 
             // passed from Edit action, so allow the ISBN
             if (bookId != null)
@@ -316,8 +317,8 @@ namespace CityLibrary.Controllers
             // passed from Create/AddCopy actions, check if ISBN already exists
             else
             {
-                result = uow.BookRepository.Get(filter:
-                    b => b.ISBN.Equals(ISBN)).Count() == 0 ? true : false;
+                result = !uow.BookRepository.Get(filter:
+                    b => b.ISBN.Equals(ISBN)).Any();
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
