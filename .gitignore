@@ -56,3 +56,5 @@ Web_ConnectionStrings.config
 
 #bin folders
 bin/
+*.dll
+*.pdb
