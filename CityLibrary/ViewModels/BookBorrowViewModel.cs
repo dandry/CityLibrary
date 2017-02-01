@@ -18,32 +18,14 @@ namespace CityLibrary.ViewModels
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
-        public DateTime CurrentDate
-        {
-            get
-            {
-                return DateTime.Now;
-            }
-        }
+        public DateTime CurrentDate => DateTime.Now;
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
-        public DateTime ReturnDate
-        {
-            get
-            {
-                return CurrentDate.AddMonths(1).AddDays(-1);
-            }
-        }
+        public DateTime ReturnDate => CurrentDate.AddDays(30);
 
         public IEnumerable<LibraryUser> Users { get; set; }
 
-        public IEnumerable<SelectListItem> UserList
-        {
-            get
-            {
-                return new SelectList(Users, "UserId", "FullName");
-            }
-        }
+        public IEnumerable<SelectListItem> UserList => new SelectList(Users, "UserId", "FullName");
     }
 }
