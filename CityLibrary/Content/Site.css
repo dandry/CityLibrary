@@ -234,3 +234,7 @@ div.content-navigation {
 ul.ui-autocomplete {
     z-index: 1100;
 }
+
+.no-padding {
+    padding: 0;
+}
