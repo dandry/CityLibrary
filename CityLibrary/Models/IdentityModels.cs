@@ -21,7 +21,7 @@ namespace CityLibrary.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("ExternalDB", throwIfV1Schema: false)
+            : base("LibraryContext", throwIfV1Schema: false)
         {
         }
 
