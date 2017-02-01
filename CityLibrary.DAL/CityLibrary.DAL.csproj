@@ -81,9 +81,41 @@
     <Compile Include="GenericRepository.cs" />
     <Compile Include="LibraryContext.cs" />
     <Compile Include="LibraryInitializer.cs" />
-    <Compile Include="Migrations\201606042023304_WebDeploy.cs" />
-    <Compile Include="Migrations\201606042023304_WebDeploy.Designer.cs">
-      <DependentUpon>201606042023304_WebDeploy.cs</DependentUpon>
+    <Compile Include="Migrations\201612101343592_InitialCreate.cs" />
+    <Compile Include="Migrations\201612101343592_InitialCreate.Designer.cs">
+      <DependentUpon>201612101343592_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612121305088_Update2.cs" />
+    <Compile Include="Migrations\201612121305088_Update2.Designer.cs">
+      <DependentUpon>201612121305088_Update2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612141520265_Update3.cs" />
+    <Compile Include="Migrations\201612141520265_Update3.Designer.cs">
+      <DependentUpon>201612141520265_Update3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612191058539_Update4.cs" />
+    <Compile Include="Migrations\201612191058539_Update4.Designer.cs">
+      <DependentUpon>201612191058539_Update4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612250742353_Update5.cs" />
+    <Compile Include="Migrations\201612250742353_Update5.Designer.cs">
+      <DependentUpon>201612250742353_Update5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612281148276_Update6.cs" />
+    <Compile Include="Migrations\201612281148276_Update6.Designer.cs">
+      <DependentUpon>201612281148276_Update6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701021758534_Update7.cs" />
+    <Compile Include="Migrations\201701021758534_Update7.Designer.cs">
+      <DependentUpon>201701021758534_Update7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701151810040_Update8.cs" />
+    <Compile Include="Migrations\201701151810040_Update8.Designer.cs">
+      <DependentUpon>201701151810040_Update8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701311810335_RebuildDb.cs" />
+    <Compile Include="Migrations\201701311810335_RebuildDb.Designer.cs">
+      <DependentUpon>201701311810335_RebuildDb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Book.cs" />
@@ -97,8 +129,32 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606042023304_WebDeploy.resx">
-      <DependentUpon>201606042023304_WebDeploy.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612101343592_InitialCreate.resx">
+      <DependentUpon>201612101343592_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612121305088_Update2.resx">
+      <DependentUpon>201612121305088_Update2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612141520265_Update3.resx">
+      <DependentUpon>201612141520265_Update3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612191058539_Update4.resx">
+      <DependentUpon>201612191058539_Update4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612250742353_Update5.resx">
+      <DependentUpon>201612250742353_Update5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612281148276_Update6.resx">
+      <DependentUpon>201612281148276_Update6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701021758534_Update7.resx">
+      <DependentUpon>201701021758534_Update7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701151810040_Update8.resx">
+      <DependentUpon>201701151810040_Update8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701311810335_RebuildDb.resx">
+      <DependentUpon>201701311810335_RebuildDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

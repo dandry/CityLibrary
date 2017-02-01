@@ -1,9 +1,9 @@
-namespace CityLibrary.DAL.Migrations
+namespace CityLibrary.DAL.Migrations.LibraryMigrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class WebDeploy : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
@@ -12,7 +12,7 @@ namespace CityLibrary.DAL.Migrations
                 c => new
                     {
                         CollectionId = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
+                        Name = c.String(),
                     })
                 .PrimaryKey(t => t.CollectionId);
             
@@ -22,10 +22,9 @@ namespace CityLibrary.DAL.Migrations
                     {
                         BookId = c.Int(nullable: false, identity: true),
                         Title = c.String(nullable: false),
-                        Author = c.String(nullable: false),
+                        Author = c.String(),
                         ISBN = c.String(nullable: false),
                         Publisher = c.String(nullable: false),
-                        YearPrinted = c.Int(nullable: false),
                         UserId = c.Int(),
                         CollectionId = c.Int(nullable: false),
                         BorrowDate = c.DateTime(),
@@ -42,16 +41,10 @@ namespace CityLibrary.DAL.Migrations
                 c => new
                     {
                         UserId = c.Int(nullable: false, identity: true),
-                        LastName = c.String(nullable: false),
-                        FirstName = c.String(nullable: false),
-                        PESEL = c.Long(nullable: false),
+                        LastName = c.String(),
+                        FirstName = c.String(),
                         DateOfBirth = c.DateTime(nullable: false),
                         RegistrationDate = c.DateTime(nullable: false),
-                        Email = c.String(),
-                        Street = c.String(nullable: false),
-                        ApartmentNumber = c.Int(),
-                        PostalCode = c.String(nullable: false),
-                        City = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.UserId);
             
